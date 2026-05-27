@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/', (req, res) => {
-  res.render('index', { title: 'Home', message: 'Welcome to my Node.js website!' });
+  res.render('index', { title: 'Home', message: 'Burgédex' });
 });
 
 router.get('/about', (req, res) => {
