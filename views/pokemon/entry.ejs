@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= pokemon.capName %></title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/about">About</a>
+  </nav>
+  <main>
+    <h1><%= pokemon.capName %></h1>
+    <img src="<%= pokemon.sprites.front_default %>" alt="<%= pokemon.capName %>" />
+    
+    <!-- Loop through each type and display its name -->
+    <% pokemon.types.forEach((type) => { %>                     
+        <p><%= type.type.name %></p>                            
+    <% }); %>
+
+    <!-- Loop through each stat and display its name and base stat value -->
+    <% pokemon.stats.forEach((stat) => { %>
+        <p><%= stat.stat.name %>: <%= stat.base_stat %></p>
+    <% }); %>
+
+  </main>
+  <footer>
+    <p>&copy; <%= new Date().getFullYear() %> Burgédex</p>
+  </footer>
+  <script src="/js/main.js"></script>
