@@ -189,6 +189,38 @@
     });
   }
 
+  /* ---- Keyboard prev/next (entry page only) ---- */
+
+  document.addEventListener('keydown', function (e) {
+    if (e.target.tagName === 'INPUT') return;
+    if (e.key === 'ArrowLeft') {
+      const prev = document.getElementById('nav-prev');
+      if (prev) window.location.href = prev.href;
+    } else if (e.key === 'ArrowRight') {
+      const next = document.getElementById('nav-next');
+      if (next) window.location.href = next.href;
+    }
+  });
+
+  /* ---- Pokédex name filter ---- */
+
+  const dexFilter = document.getElementById('dex-filter');
+  if (dexFilter) {
+    const cards   = document.querySelectorAll('.dex-card');
+    const emptyEl = document.getElementById('dex-empty');
+
+    dexFilter.addEventListener('input', function () {
+      const q = this.value.trim().toLowerCase();
+      let visible = 0;
+      cards.forEach(function (card) {
+        const match = card.dataset.name.includes(q);
+        card.style.display = match ? '' : 'none';
+        if (match) visible++;
+      });
+      if (emptyEl) emptyEl.hidden = visible > 0;
+    });
+  }
+
   /* ---- Search autocomplete ---- */
 
   const input       = document.getElementById('pb-search-input');

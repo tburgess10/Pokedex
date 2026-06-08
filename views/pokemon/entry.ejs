@@ -10,8 +10,24 @@
   <nav class="entry-nav">
     <div class="entry-nav__links">
       <a href="/">← Home</a>
+      <a href="/pokedex">Pokédex</a>
       <a href="/about">About</a>
     </div>
+
+    <div class="entry-nav__pagination">
+      <% if (pokemon.prevId) { %>
+        <a class="nav-pgbtn" id="nav-prev" href="/pokemon/<%= pokemon.prevId %>">&lsaquo; #<%= String(pokemon.prevId).padStart(4,'0') %></a>
+      <% } else { %>
+        <span class="nav-pgbtn nav-pgbtn--disabled">&lsaquo;</span>
+      <% } %>
+      <span class="entry-nav__brand">Burgédex</span>
+      <% if (pokemon.nextId) { %>
+        <a class="nav-pgbtn" id="nav-next" href="/pokemon/<%= pokemon.nextId %>">#<%= String(pokemon.nextId).padStart(4,'0') %> &rsaquo;</a>
+      <% } else { %>
+        <span class="nav-pgbtn nav-pgbtn--disabled">&rsaquo;</span>
+      <% } %>
+    </div>
+
     <div class="entry-nav__search">
       <form action="/pokemon" method="GET">
         <input

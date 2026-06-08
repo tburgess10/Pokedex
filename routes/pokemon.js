@@ -192,6 +192,10 @@ router.get('/:id', async (req, res) => {
             pokedata.evolutionStages = [];
         }
 
+        const sid = pokedata.speciesId || pokedata.id;
+        pokedata.prevId = sid > 1    ? sid - 1    : null;
+        pokedata.nextId = sid < 1025 ? sid + 1    : null;
+
         res.render('pokemon/entry', { pokemon: pokedata });
     } catch (err) {
         res.render('pokemon/not-found', { query: req.params.id });

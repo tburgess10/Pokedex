@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pokédex — Burgédex</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body class="entry-page">
+  <nav class="entry-nav">
+    <div class="entry-nav__links">
+      <a href="/">← Home</a>
+      <a href="/about">About</a>
+    </div>
+    <div class="entry-nav__search">
+      <form action="/pokemon" method="GET">
+        <input
+          id="pb-search-input"
+          class="nav-search-input"
+          type="text"
+          name="q"
+          placeholder="Search Pokémon..."
+          autocomplete="off"
+        />
+      </form>
+      <ul class="pb-suggestions" id="pb-suggestions" hidden></ul>
+    </div>
+  </nav>
+
+  <main class="dex-main">
+
+    <div class="dex-header">
+      <h1 class="dex-title">Pokédex</h1>
+      <input
+        id="dex-filter"
+        class="dex-filter"
+        type="text"
+        placeholder="Filter by name…"
+        autocomplete="off"
+      />
+    </div>
+
+    <div class="gen-tabs" role="tablist">
+      <% gens.forEach(function(g) { %>
+        <a class="gen-tab <%= g.num === genNum ? 'gen-tab--active' : '' %>"
+           href="/pokedex?gen=<%= g.num %>">
+          <%= g.label %>
+        </a>
+      <% }); %>
+    </div>
+
+    <div class="dex-grid" id="dex-grid">
+      <% pokemon.forEach(function(p) { %>
+        <a class="dex-card"
+           href="/pokemon/<%= p.name %>"
+           data-name="<%= p.name %>">
+          <img
+            class="dex-sprite"
+            src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/<%= p.id %>.png"
+            alt="<%= p.name %>"
+            loading="lazy"
+          />
+          <span class="dex-number">#<%= String(p.id).padStart(4, '0') %></span>
+          <span class="dex-name"><%= p.name.charAt(0).toUpperCase() + p.name.slice(1) %></span>
+        </a>
+      <% }); %>
+    </div>
+
+    <p class="dex-empty" id="dex-empty" hidden>No Pokémon match that name.</p>
+
+  </main>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>

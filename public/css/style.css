@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -246,11 +248,13 @@ body.pokeball-home {
 .pb-title {
   position: relative;
   z-index: 2;
-  font-size: clamp(2.5rem, 6vw, 4.5rem);
-  font-weight: 900;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(3.5rem, 9vw, 7rem);
+  font-weight: 400;
   color: var(--pb-title-fg);
-  letter-spacing: -1px;
-  text-shadow: 0 3px 14px rgba(0,0,0,0.2);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-shadow: 0 3px 18px rgba(0,0,0,0.22);
   margin: 0;
   transition: color 0.35s;
 }
@@ -695,9 +699,9 @@ body.entry-page nav a {
 }
 
 .entry-nav {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: space-between;
   gap: 1rem;
   padding: 0.75rem 2rem;
 }
@@ -707,8 +711,42 @@ body.entry-page nav a {
   gap: 1.5rem;
 }
 
+.entry-nav__pagination {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.nav-pgbtn {
+  padding: 0.3rem 0.85rem;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.15);
+  color: var(--accent-fg);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: background .18s;
+}
+
+.nav-pgbtn:hover { background: rgba(255,255,255,0.28); }
+
+.nav-pgbtn--disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
 .entry-nav__search {
   position: relative;
+  justify-self: end;
+}
+
+.entry-nav__brand {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.55rem;
+  color: var(--accent-fg);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .nav-search-input {
@@ -1295,4 +1333,120 @@ body.entry-page .pb-suggestion.is-active {
   .forms-grid    { gap: .75rem; }
   .form-card     { width: 120px; }
   .form-artwork  { width: 80px; height: 80px; }
+}
+
+/* ===================== Pokédex browser ===================== */
+
+.dex-main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+.dex-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.dex-title {
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: #111;
+}
+
+.dex-filter {
+  padding: 0.45rem 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 20px;
+  font-size: 0.88rem;
+  width: 220px;
+  outline: none;
+  transition: border-color .18s;
+}
+
+.dex-filter:focus { border-color: var(--accent); }
+
+.gen-tabs {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.gen-tab {
+  padding: 0.35rem 0.9rem;
+  border-radius: 20px;
+  border: 2px solid #e0e0e0;
+  background: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #666;
+  text-decoration: none;
+  transition: border-color .18s, color .18s, background .18s;
+}
+
+.gen-tab:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.gen-tab--active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-fg);
+}
+
+.dex-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 0.75rem;
+}
+
+.dex-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.75rem 0.5rem 0.6rem;
+  background: #fff;
+  border-radius: 12px;
+  border: 2px solid #ebebeb;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color .18s, box-shadow .18s;
+}
+
+.dex-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 4px 12px rgba(0,0,0,.08);
+}
+
+.dex-sprite {
+  width: 80px;
+  height: 80px;
+  image-rendering: pixelated;
+}
+
+.dex-number {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #bbb;
+  letter-spacing: 0.04em;
+}
+
+.dex-name {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #333;
+  text-align: center;
+}
+
+.dex-empty {
+  text-align: center;
+  color: #aaa;
+  margin-top: 3rem;
+  font-size: 0.95rem;
 }
