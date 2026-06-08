@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Not Found — Burgédex</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/about">About</a>
+  </nav>
+  <main>
+    <h1>No Pokémon found</h1>
+    <p>
+      "<strong><%= query %></strong>" didn't match any Pokémon.
+      Try a name like <em>pikachu</em> or a Pokédex number like <em>25</em>.
+    </p>
+    <a href="/">← Back to search</a>
+  </main>
+  <footer>
+    <p>&copy; <%= new Date().getFullYear() %> Burgédex</p>
+  </footer>
+</body>
+</html>

@@ -3,30 +3,211 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title><%= pokemon.capName %></title>
+  <title><%= pokemon.capName %> — Burgédex</title>
   <link rel="stylesheet" href="/css/style.css" />
 </head>
-<body>
-  <nav>
-    <a href="/">Home</a>
-    <a href="/about">About</a>
+<body class="entry-page">
+  <nav class="entry-nav">
+    <div class="entry-nav__links">
+      <a href="/">← Home</a>
+      <a href="/about">About</a>
+    </div>
+    <div class="entry-nav__search">
+      <form action="/pokemon" method="GET">
+        <input
+          id="pb-search-input"
+          class="nav-search-input"
+          type="text"
+          name="q"
+          placeholder="Search Pokémon..."
+          autocomplete="off"
+        />
+      </form>
+      <ul class="pb-suggestions" id="pb-suggestions" hidden></ul>
+    </div>
   </nav>
-  <main>
-    <h1><%= pokemon.capName %></h1>
-    <img src="<%= pokemon.sprites.front_default %>" alt="<%= pokemon.capName %>" />
-    
-    <!-- Loop through each type and display its name -->
-    <% pokemon.types.forEach((type) => { %>                     
-        <p><%= type.type.name %></p>                            
-    <% }); %>
 
-    <!-- Loop through each stat and display its name and base stat value -->
-    <% pokemon.stats.forEach((stat) => { %>
-        <p><%= stat.stat.name %>: <%= stat.base_stat %></p>
-    <% }); %>
+  <%
+    const statLabels = {
+      'hp':              'HP',
+      'attack':          'Attack',
+      'defense':         'Defense',
+      'special-attack':  'Sp. Atk',
+      'special-defense': 'Sp. Def',
+      'speed':           'Speed'
+    };
 
+    function statColor(v) {
+      if (v < 60)  return '#E74C3C';
+      if (v < 90)  return '#F39C12';
+      if (v < 120) return '#2ECC71';
+      return '#3498DB';
+    }
+
+    const total        = pokemon.stats.reduce((s, x) => s + x.base_stat, 0);
+    const shinyArtwork = pokemon.sprites.other['official-artwork'].front_shiny;
+  %>
+
+  <main class="entry-main">
+    <div class="entry-card">
+
+      <!-- Left: artwork + sprite -->
+      <div class="entry-art-col">
+        <div class="entry-artwork-box">
+          <img
+            id="entry-artwork"
+            class="entry-artwork"
+            src="<%= pokemon.sprites.other['official-artwork'].front_default %>"
+            data-normal="<%= pokemon.sprites.other['official-artwork'].front_default %>"
+            data-shiny="<%= shinyArtwork %>"
+            alt="<%= pokemon.capName %> official artwork"
+          />
+        </div>
+        <div class="entry-sprite-row">
+          <img
+            id="entry-sprite"
+            class="entry-sprite"
+            src="<%= pokemon.sprites.front_default %>"
+            data-normal="<%= pokemon.sprites.front_default %>"
+            data-shiny="<%= pokemon.sprites.front_shiny %>"
+            alt="<%= pokemon.capName %> sprite"
+          />
+          <button class="shiny-btn" id="shiny-btn">✦ Shiny</button>
+        </div>
+        <% if (pokemon.flavorText) { %>
+        <p class="entry-flavor">
+          "<%= pokemon.flavorText %>"
+          <span class="entry-flavor-game"><%= pokemon.flavorGame %></span>
+        </p>
+        <% } %>
+      </div>
+
+      <!-- Right: info -->
+      <div class="entry-info-col">
+
+        <div class="entry-header">
+          <span class="entry-number">#<%= String(pokemon.id).padStart(4, '0') %></span>
+          <h1 class="entry-name"><%= pokemon.capName %></h1>
+          <div class="entry-types">
+            <% pokemon.types.forEach(t => { %>
+              <span class="type-badge type-<%= t.type.name %>"><%= t.type.name %></span>
+            <% }); %>
+          </div>
+        </div>
+
+        <div class="entry-physical">
+          <div class="phys-box">
+            <span class="phys-label">Height</span>
+            <span class="phys-value"><%= (pokemon.height / 10).toFixed(1) %> m</span>
+          </div>
+          <div class="phys-box">
+            <span class="phys-label">Weight</span>
+            <span class="phys-value"><%= (pokemon.weight / 10).toFixed(1) %> kg</span>
+          </div>
+          <div class="phys-box">
+            <span class="phys-label">Base XP</span>
+            <span class="phys-value"><%= pokemon.base_experience %></span>
+          </div>
+        </div>
+
+        <div class="entry-abilities">
+          <h2 class="entry-section-title">Abilities</h2>
+          <div class="ability-cards">
+            <% pokemon.abilityDetails.forEach(a => { %>
+              <div class="ability-card <%= a.isHidden ? 'ability-card--hidden' : '' %>">
+                <div class="ability-card__header">
+                  <span class="ability-card__name">
+                    <%= a.name.split('-').map(w => w[0].toUpperCase() + w.slice(1)).join(' ') %>
+                  </span>
+                  <% if (a.isHidden) { %>
+                    <span class="ability-card__badge">Hidden</span>
+                  <% } %>
+                </div>
+                <% if (a.shortEffect) { %>
+                  <p class="ability-card__desc"><%= a.shortEffect %></p>
+                <% } %>
+              </div>
+            <% }); %>
+          </div>
+        </div>
+
+        <div class="entry-stats">
+          <h2 class="entry-section-title">Base Stats</h2>
+          <% pokemon.stats.forEach(s => { %>
+            <div class="stat-row">
+              <span class="stat-name"><%= statLabels[s.stat.name] || s.stat.name %></span>
+              <span class="stat-num"><%= s.base_stat %></span>
+              <div class="stat-track">
+                <div class="stat-bar <%= s.base_stat > 150 ? 'stat-bar--overflow' : '' %>" style="--w:<%= Math.min(100, Math.round(s.base_stat / 150 * 100)) %>%;--c:<%= statColor(s.base_stat) %>"></div>
+              </div>
+            </div>
+          <% }); %>
+          <div class="stat-row stat-total-row">
+            <span class="stat-name">Total</span>
+            <span class="stat-num total-num"><%= total %></span>
+            <div class="stat-track"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <% if (pokemon.forms && pokemon.forms.length > 0) { %>
+    <div class="entry-forms">
+      <h2 class="entry-forms-title">Other Forms</h2>
+      <div class="forms-grid" id="forms-grid">
+
+        <!-- Base form — active by default -->
+        <div class="form-card form-card--active"
+             data-artwork="<%= pokemon.sprites.other['official-artwork'].front_default %>"
+             data-artwork-shiny="<%= shinyArtwork || '' %>"
+             data-sprite="<%= pokemon.sprites.front_default %>"
+             data-sprite-shiny="<%= pokemon.sprites.front_shiny || '' %>"
+             data-types="<%= pokemon.types.map(t => t.type.name).join(',') %>">
+          <img class="form-artwork"
+               src="<%= pokemon.sprites.other['official-artwork'].front_default %>"
+               alt="Base" />
+          <span class="form-name">Base</span>
+          <div class="form-types">
+            <% pokemon.types.forEach(t => { %>
+              <span class="type-badge type-<%= t.type.name %>"><%= t.type.name %></span>
+            <% }); %>
+          </div>
+        </div>
+
+        <% pokemon.forms.forEach(f => { %>
+          <%
+            const rawLabel = f.name.startsWith(pokemon.name + '-')
+              ? f.name.slice(pokemon.name.length + 1)
+              : f.name;
+            const formLabel = rawLabel.split('-').map(w => w[0].toUpperCase() + w.slice(1)).join(' ');
+            const typeStr   = f.types.map(t => t.type.name).join(',');
+          %>
+          <div class="form-card"
+               data-artwork="<%= f.artwork || '' %>"
+               data-artwork-shiny="<%= f.artworkShiny || '' %>"
+               data-sprite="<%= f.sprite || '' %>"
+               data-sprite-shiny="<%= f.spriteShiny || '' %>"
+               data-types="<%= typeStr %>">
+            <% if (f.artwork) { %>
+              <img class="form-artwork" src="<%= f.artwork %>" alt="<%= formLabel %>" />
+            <% } %>
+            <span class="form-name"><%= formLabel %></span>
+            <div class="form-types">
+              <% f.types.forEach(t => { %>
+                <span class="type-badge type-<%= t.type.name %>"><%= t.type.name %></span>
+              <% }); %>
+            </div>
+          </div>
+        <% }); %>
+
+      </div>
+    </div>
+    <% } %>
   </main>
+
   <footer>
     <p>&copy; <%= new Date().getFullYear() %> Burgédex</p>
   </footer>
   <script src="/js/main.js"></script>
+</body>
+</html>

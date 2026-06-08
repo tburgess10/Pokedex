@@ -5,11 +5,27 @@
 }
 
 body {
-  font-family: system-ui, sans-serif;
+  font-family: system-ui, -apple-system, sans-serif;
   line-height: 1.6;
   color: #222;
-  background: #f9f9f9;
+  background: #f5f5f5;
 }
+
+/* ---- Theme accent (used by entry page nav + accents) ---- */
+body                           { --accent: #CC0000; --accent-fg: #fff; }
+body[data-theme="greatball"]   { --accent: #2668C8; --accent-fg: #fff; }
+body[data-theme="ultraball"]   { --accent: #F5C800; --accent-fg: #111; }
+body[data-theme="masterball"]  { --accent: #7E308E; --accent-fg: #fff; }
+body[data-theme="safariball"]  { --accent: #7B6920; --accent-fg: #fff; }
+body[data-theme="netball"]     { --accent: #1E3A8A; --accent-fg: #fff; }
+body[data-theme="diveball"]    { --accent: #0284C7; --accent-fg: #fff; }
+body[data-theme="healball"]    { --accent: #DB2777; --accent-fg: #fff; }
+body[data-theme="duskball"]    { --accent: #2E4B1C; --accent-fg: #C8E0B0; }
+body[data-theme="luxuryball"]  { --accent: #0F172A; --accent-fg: #fff; }
+body[data-theme="moonball"]    { --accent: #E8C820; --accent-fg: #111; }
+body[data-theme="premierball"] { --accent: #CC0000; --accent-fg: #fff; }
+
+/* ---- Generic layout (about, pokemon, etc.) ---- */
 
 nav {
   background: #333;
@@ -24,9 +40,7 @@ nav a {
   font-weight: 500;
 }
 
-nav a:hover {
-  text-decoration: underline;
-}
+nav a:hover { text-decoration: underline; }
 
 main {
   max-width: 800px;
@@ -34,18 +48,1121 @@ main {
   padding: 0 1rem;
 }
 
-h1 {
-  margin-bottom: 1rem;
-  font-size: 2rem;
-}
-
-p {
-  margin-bottom: 1rem;
-}
+h1 { margin-bottom: 1rem; font-size: 2rem; }
+p  { margin-bottom: 1rem; }
 
 footer {
   text-align: center;
   padding: 2rem;
   color: #666;
   font-size: 0.9rem;
+}
+
+/* ============================================================
+   POKÉBALL HOME — CSS variables (default: Poké Ball)
+   ============================================================ */
+
+.pokeball-home {
+  --pb-top:           #CC0000;
+  --pb-bottom:        #F5F5F5;
+  --pb-band-bg:       #FFFFFF;
+  --pb-band-border:   #111111;
+  --pb-btn-bg:        #D0D0D0;
+  --pb-btn-ring:      #FFFFFF;
+  --pb-title-fg:      #FFFFFF;
+  --pb-tagline-fg:    rgba(255,255,255,0.7);
+  --pb-input-fg:      #111111;
+  --pb-placeholder:   #BBBBBB;
+  --pb-caret:         #CC0000;
+  --pb-card-bg:       #FFFFFF;
+  --pb-card-border:   #E0E0E0;
+  --pb-card-hover:    #CC0000;
+  --pb-card-shadow:   rgba(204,0,0,0.13);
+  --pb-card-fg:       #222222;
+  --pb-card-desc-fg:  #999999;
+}
+
+/* ---- Themes ---- */
+
+.pokeball-home[data-theme="greatball"] {
+  --pb-top:          #2668C8;
+  --pb-bottom:       #EFF6FF;
+  --pb-caret:        #2668C8;
+  --pb-card-hover:   #2668C8;
+  --pb-card-shadow:  rgba(38,104,200,0.13);
+}
+
+.pokeball-home[data-theme="ultraball"] {
+  --pb-top:          #F5C800;
+  --pb-bottom:       #0F172A;
+  --pb-title-fg:     #111111;
+  --pb-tagline-fg:   rgba(0,0,0,0.55);
+  --pb-caret:        #B45309;
+  --pb-card-bg:      #1E293B;
+  --pb-card-border:  #334155;
+  --pb-card-hover:   #F5C800;
+  --pb-card-shadow:  rgba(245,200,0,0.2);
+  --pb-card-fg:      #F1F5F9;
+  --pb-card-desc-fg: #94A3B8;
+  --pb-placeholder:  #64748B;
+  --pb-input-fg:     #111111;
+}
+
+.pokeball-home[data-theme="masterball"] {
+  --pb-top:          #7E308E;
+  --pb-bottom:       #F5F3FF;
+  --pb-caret:        #7E308E;
+  --pb-card-hover:   #7E308E;
+  --pb-card-shadow:  rgba(126,48,142,0.13);
+}
+
+.pokeball-home[data-theme="safariball"] {
+  --pb-top:          #7B6920;
+  --pb-bottom:       #D4C080;
+  --pb-band-border:  #3B2E00;
+  --pb-caret:        #5C4E18;
+  --pb-card-bg:      #F5EDD0;
+  --pb-card-border:  #C8B060;
+  --pb-card-hover:   #7B6920;
+  --pb-card-shadow:  rgba(123,105,32,0.18);
+  --pb-card-fg:      #2C2200;
+  --pb-card-desc-fg: #6B5C20;
+}
+
+.pokeball-home[data-theme="netball"] {
+  --pb-top:          #1E3A8A;
+  --pb-bottom:       #DBEAFE;
+  --pb-band-border:  #1E3A8A;
+  --pb-caret:        #1E40AF;
+  --pb-card-hover:   #1E40AF;
+  --pb-card-shadow:  rgba(30,58,138,0.13);
+}
+
+.pokeball-home[data-theme="diveball"] {
+  --pb-top:          #0284C7;
+  --pb-bottom:       #E0F2FE;
+  --pb-band-border:  #0369A1;
+  --pb-caret:        #0284C7;
+  --pb-card-hover:   #0284C7;
+  --pb-card-shadow:  rgba(2,132,199,0.13);
+}
+
+.pokeball-home[data-theme="healball"] {
+  --pb-top:          #DB2777;
+  --pb-bottom:       #FDF2F8;
+  --pb-band-border:  #9D174D;
+  --pb-caret:        #DB2777;
+  --pb-card-hover:   #DB2777;
+  --pb-card-shadow:  rgba(219,39,119,0.13);
+}
+
+.pokeball-home[data-theme="duskball"] {
+  --pb-top:          #2E4B1C;
+  --pb-bottom:       #0D1A09;
+  --pb-band-bg:      #1A2412;
+  --pb-band-border:  #4B6B38;
+  --pb-btn-bg:       #3A5028;
+  --pb-btn-ring:     #2E4B1C;
+  --pb-tagline-fg:   rgba(180,220,160,0.6);
+  --pb-placeholder:  #5A7A48;
+  --pb-input-fg:     #C8E0B0;
+  --pb-caret:        #88BB68;
+  --pb-card-bg:      #1A2C10;
+  --pb-card-border:  #2E4B1C;
+  --pb-card-hover:   #5A8040;
+  --pb-card-shadow:  rgba(80,120,50,0.25);
+  --pb-card-fg:      #C8E0B0;
+  --pb-card-desc-fg: #7AAA58;
+}
+
+.pokeball-home[data-theme="luxuryball"] {
+  --pb-top:          #0F172A;
+  --pb-bottom:       #0F172A;
+  --pb-band-bg:      #1E293B;
+  --pb-band-border:  #CC0000;
+  --pb-btn-bg:       #334155;
+  --pb-btn-ring:     #1E293B;
+  --pb-tagline-fg:   rgba(248,248,255,0.5);
+  --pb-placeholder:  #475569;
+  --pb-input-fg:     #F1F5F9;
+  --pb-caret:        #CC0000;
+  --pb-card-bg:      #1E293B;
+  --pb-card-border:  #334155;
+  --pb-card-hover:   #CC0000;
+  --pb-card-shadow:  rgba(204,0,0,0.2);
+  --pb-card-fg:      #F1F5F9;
+  --pb-card-desc-fg: #94A3B8;
+}
+
+.pokeball-home[data-theme="moonball"] {
+  --pb-top:          #E8C820;
+  --pb-bottom:       #1E3A8A;
+  --pb-title-fg:     #111111;
+  --pb-tagline-fg:   rgba(0,0,0,0.5);
+  --pb-caret:        #B45309;
+  --pb-card-bg:      #1E40AF;
+  --pb-card-border:  #2563EB;
+  --pb-card-hover:   #E8C820;
+  --pb-card-shadow:  rgba(232,200,32,0.25);
+  --pb-card-fg:      #F1F5F9;
+  --pb-card-desc-fg: #93C5FD;
+}
+
+.pokeball-home[data-theme="premierball"] {
+  --pb-top:          #F0F0F0;
+  --pb-bottom:       #F0F0F0;
+  --pb-band-border:  #CC0000;
+  --pb-title-fg:     #CC0000;
+  --pb-tagline-fg:   rgba(204,0,0,0.55);
+  --pb-caret:        #CC0000;
+  --pb-card-hover:   #CC0000;
+  --pb-card-shadow:  rgba(204,0,0,0.13);
+}
+
+/* ============================================================
+   POKÉBALL HOME — layout
+   ============================================================ */
+
+body.pokeball-home {
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.pb-top {
+  flex: 1;
+  background-color: var(--pb-top);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  position: relative;
+  overflow: hidden;
+  transition: background-color 0.35s;
+}
+
+.pb-title {
+  position: relative;
+  z-index: 2;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 900;
+  color: var(--pb-title-fg);
+  letter-spacing: -1px;
+  text-shadow: 0 3px 14px rgba(0,0,0,0.2);
+  margin: 0;
+  transition: color 0.35s;
+}
+
+.pb-tagline {
+  position: relative;
+  z-index: 2;
+  color: var(--pb-tagline-fg);
+  font-size: 1.1rem;
+  font-style: italic;
+  margin: 0;
+  transition: color 0.35s;
+}
+
+/* ---- Middle stripe ---- */
+
+.pb-band {
+  flex-shrink: 0;
+  position: relative;
+  z-index: 10;
+  background-color: var(--pb-band-bg);
+  border-top: 11px solid var(--pb-band-border);
+  border-bottom: 11px solid var(--pb-band-border);
+  height: 78px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 2rem;
+  transition: background-color 0.35s, border-color 0.35s;
+}
+
+.pb-search {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+}
+
+.pb-search__input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 1.1rem;
+  outline: none;
+  padding: 0 1rem;
+  color: var(--pb-input-fg);
+  caret-color: var(--pb-caret);
+  transition: color 0.35s;
+}
+
+.pb-search__input::placeholder {
+  color: var(--pb-placeholder);
+  transition: color 0.35s;
+}
+
+.pb-search__btn {
+  flex-shrink: 0;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  border: 5px solid var(--pb-band-border);
+  background-color: var(--pb-btn-bg);
+  box-shadow: inset 0 0 0 12px var(--pb-btn-ring);
+  cursor: pointer;
+  margin-left: 0.75rem;
+  transition: filter 0.15s, transform 0.1s, border-color 0.35s, background-color 0.35s, box-shadow 0.35s;
+}
+
+.pb-search__btn:hover  { filter: brightness(0.88); transform: scale(1.06); }
+.pb-search__btn:active { transform: scale(0.96); }
+
+/* ---- Bottom half ---- */
+
+.pb-bottom {
+  flex: 1;
+  background-color: var(--pb-bottom);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  transition: background-color 0.35s;
+}
+
+.pb-nav {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  gap: 1.25rem;
+}
+
+.pb-nav__card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 1.1rem 2rem;
+  background-color: var(--pb-card-bg);
+  border: 2px solid var(--pb-card-border);
+  border-radius: 14px;
+  text-decoration: none;
+  color: var(--pb-card-fg);
+  min-width: 150px;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s,
+              background-color 0.35s, color 0.35s;
+}
+
+.pb-nav__card:hover {
+  border-color: var(--pb-card-hover);
+  box-shadow: 0 4px 18px var(--pb-card-shadow);
+  transform: translateY(-2px);
+}
+
+.pb-nav__name { font-weight: 700; font-size: 1rem; }
+
+.pb-nav__desc {
+  font-size: 0.8rem;
+  color: var(--pb-card-desc-fg);
+  transition: color 0.35s;
+}
+
+/* ---- Autocomplete suggestions ---- */
+
+/* Drops out of the band's bottom edge with matching thick border */
+.pb-suggestions {
+  position: absolute;
+  top: calc(100% + 11px);   /* 100% = content height, +11px clears the bottom border */
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 4rem); /* matches the band's horizontal padding */
+  max-width: 600px;
+  background-color: var(--pb-band-bg);
+  border-left: 11px solid var(--pb-band-border);
+  border-right: 11px solid var(--pb-band-border);
+  border-bottom: 11px solid var(--pb-band-border);
+  border-radius: 0 0 14px 14px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  z-index: 50;
+  overflow: hidden;
+  transition: background-color 0.35s, border-color 0.35s;
+}
+
+.pb-suggestion {
+  padding: 0.65rem 1.25rem;
+  cursor: pointer;
+  font-size: 1rem;
+  color: var(--pb-input-fg);
+  transition: background-color 0.1s, color 0.1s;
+}
+
+.pb-suggestion + .pb-suggestion {
+  border-top: 1px solid var(--pb-card-border);
+}
+
+.pb-suggestion:hover,
+.pb-suggestion.is-active {
+  background-color: var(--pb-card-hover);
+  color: #fff;
+}
+
+/* ============================================================
+   BALL DESIGNS — pseudo-element overlays
+   ============================================================ */
+
+/* Great Ball: diagonal red stripe across blue top */
+.pokeball-home[data-theme="greatball"] .pb-top::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    148deg,
+    transparent 27%,
+    rgba(200,20,20,0.72) 29%,
+    rgba(200,20,20,0.72) 46%,
+    transparent 48%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Ultra Ball: two black angular wedges at the bottom of the yellow top */
+.pokeball-home[data-theme="ultraball"] .pb-top::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #111;
+  clip-path: polygon(0% 58%, 36% 100%, 0% 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+.pokeball-home[data-theme="ultraball"] .pb-top::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #111;
+  clip-path: polygon(100% 58%, 64% 100%, 100% 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Master Ball: large M watermark + two pink side circles */
+.pokeball-home[data-theme="masterball"] .pb-top::before {
+  content: 'M';
+  position: absolute;
+  font-size: clamp(8rem, 20vw, 15rem);
+  font-weight: 900;
+  font-family: system-ui, sans-serif;
+  color: rgba(255,255,255,0.17);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  line-height: 1;
+  pointer-events: none;
+  z-index: 0;
+  letter-spacing: -4px;
+}
+.pokeball-home[data-theme="masterball"] .pb-top::after {
+  content: '';
+  position: absolute;
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  border: 5px solid rgba(249,168,212,0.55);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: -195px 0 0 rgba(249,168,212,0.45),
+               195px 0 0 rgba(249,168,212,0.45);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Safari Ball: crosshatch pattern */
+.pokeball-home[data-theme="safariball"] .pb-top::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient( 45deg, rgba(0,0,0,0.16) 0, rgba(0,0,0,0.16) 2px, transparent 2px, transparent 18px),
+    repeating-linear-gradient(-45deg, rgba(0,0,0,0.16) 0, rgba(0,0,0,0.16) 2px, transparent 2px, transparent 18px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Net Ball: diamond net pattern on both halves */
+.pokeball-home[data-theme="netball"] .pb-top::before,
+.pokeball-home[data-theme="netball"] .pb-bottom::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient( 45deg, rgba(0,0,0,0.28) 0, rgba(0,0,0,0.28) 2px, transparent 2px, transparent 28px),
+    repeating-linear-gradient(-45deg, rgba(0,0,0,0.28) 0, rgba(0,0,0,0.28) 2px, transparent 2px, transparent 28px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Dive Ball: diagonal wave stripes */
+.pokeball-home[data-theme="diveball"] .pb-top::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    162deg,
+    rgba(255,255,255,0.18) 0px,
+    rgba(255,255,255,0.18) 7px,
+    transparent 7px,
+    transparent 38px
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Heal Ball: white cross centered on pink top */
+.pokeball-home[data-theme="healball"] .pb-top::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right,  transparent 43%, rgba(255,255,255,0.38) 43%, rgba(255,255,255,0.38) 57%, transparent 57%),
+    linear-gradient(to bottom, transparent 22%, rgba(255,255,255,0.38) 22%, rgba(255,255,255,0.38) 78%, transparent 78%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Dusk Ball: diagonal dark stripes on dark olive halves */
+.pokeball-home[data-theme="duskball"] .pb-top::before,
+.pokeball-home[data-theme="duskball"] .pb-bottom::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    -50deg,
+    rgba(0,0,0,0.4) 0px,
+    rgba(0,0,0,0.4) 5px,
+    transparent 5px,
+    transparent 26px
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Luxury Ball: fine red diamond pattern on both halves */
+.pokeball-home[data-theme="luxuryball"] .pb-top::before,
+.pokeball-home[data-theme="luxuryball"] .pb-bottom::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient( 45deg, rgba(204,0,0,0.32) 0, rgba(204,0,0,0.32) 1.5px, transparent 1.5px, transparent 36px),
+    repeating-linear-gradient(-45deg, rgba(204,0,0,0.32) 0, rgba(204,0,0,0.32) 1.5px, transparent 1.5px, transparent 36px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Moon Ball: glowing moon circle + crescent bite */
+.pokeball-home[data-theme="moonball"] .pb-top::before {
+  content: '';
+  position: absolute;
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: rgba(255,255,200,0.5);
+  box-shadow: 0 0 55px 22px rgba(255,248,160,0.25);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) translate(-18px, -12px);
+  pointer-events: none;
+  z-index: 0;
+}
+/* Offset circle in the background color creates the crescent illusion */
+.pokeball-home[data-theme="moonball"] .pb-top::after {
+  content: '';
+  position: absolute;
+  width: 112px;
+  height: 112px;
+  border-radius: 50%;
+  background-color: var(--pb-top);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) translate(22px, -28px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ============================================================
+   THEME PICKER
+   ============================================================ */
+
+.theme-picker {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.theme-dot {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2.5px solid #111;
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.15s, box-shadow 0.15s;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+/* Horizontal dividing stripe */
+.theme-dot::after {
+  content: '';
+  position: absolute;
+  top: calc(50% - 1px);
+  left: 0; right: 0;
+  height: 2.5px;
+  background: rgba(0,0,0,0.45);
+  pointer-events: none;
+}
+
+/* Center button circle */
+.theme-dot::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: #fff;
+  border: 1.5px solid rgba(0,0,0,0.5);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.theme-dot:hover  { transform: scale(1.18); }
+.theme-dot.active { box-shadow: 0 0 0 2px #fff, 0 0 0 4.5px #111; transform: scale(1.12); }
+
+/* Per-ball split colors — top/bottom gradient */
+.theme-dot[data-theme="pokeball"]    { background: linear-gradient(to bottom, #CC0000 50%, #F5F5F5 50%); border-color: #111; }
+.theme-dot[data-theme="greatball"]   { background: linear-gradient(to bottom, #2668C8 50%, #EFF6FF 50%); border-color: #111; }
+.theme-dot[data-theme="ultraball"]   { background: linear-gradient(to bottom, #F5C800 50%, #0F172A 50%); border-color: #111; }
+.theme-dot[data-theme="masterball"]  { background: linear-gradient(to bottom, #7E308E 50%, #F5F3FF 50%); border-color: #111; }
+.theme-dot[data-theme="safariball"]  { background: linear-gradient(to bottom, #7B6920 50%, #D4C080 50%); border-color: #3B2E00; }
+.theme-dot[data-theme="netball"]     { background: linear-gradient(to bottom, #1E3A8A 50%, #DBEAFE 50%); border-color: #1E3A8A; }
+.theme-dot[data-theme="diveball"]    { background: linear-gradient(to bottom, #0284C7 50%, #E0F2FE 50%); border-color: #0369A1; }
+.theme-dot[data-theme="healball"]    { background: linear-gradient(to bottom, #DB2777 50%, #FDF2F8 50%); border-color: #9D174D; }
+.theme-dot[data-theme="duskball"]    { background: linear-gradient(to bottom, #2E4B1C 50%, #0D1A09 50%); border-color: #4B6B38; }
+.theme-dot[data-theme="luxuryball"]  { background: linear-gradient(to bottom, #0F172A 50%, #0F172A 50%); border-color: #CC0000; }
+.theme-dot[data-theme="moonball"]    { background: linear-gradient(to bottom, #E8C820 50%, #1E3A8A 50%); border-color: #111; }
+.theme-dot[data-theme="premierball"] { background: linear-gradient(to bottom, #F0F0F0 50%, #F0F0F0 50%); border-color: #CC0000; }
+
+/* Override divider stripe for Premier Ball and Luxury Ball to match their accent */
+.theme-dot[data-theme="premierball"]::after { background: rgba(204,0,0,0.8); }
+.theme-dot[data-theme="luxuryball"]::after  { background: rgba(204,0,0,0.7); }
+/* Dusk Ball: lighter divider since both halves are very dark */
+.theme-dot[data-theme="duskball"]::after    { background: rgba(140,180,100,0.6); }
+/* Ultra Ball: dark divider on yellow/black */
+.theme-dot[data-theme="ultraball"]::after   { background: rgba(0,0,0,0.6); }
+
+/* ============================================================
+   ENTRY PAGE
+   ============================================================ */
+
+body.entry-page {
+  background: #f0f0f0;
+  min-height: 100vh;
+}
+
+body.entry-page nav {
+  background: var(--accent);
+}
+
+body.entry-page nav a {
+  color: var(--accent-fg);
+}
+
+.entry-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 2rem;
+}
+
+.entry-nav__links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.entry-nav__search {
+  position: relative;
+}
+
+.nav-search-input {
+  padding: 0.35rem 1rem;
+  border: none;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.2);
+  color: var(--accent-fg);
+  font-size: 0.9rem;
+  width: 210px;
+  outline: none;
+  transition: background 0.2s, width 0.25s;
+}
+
+.nav-search-input::placeholder {
+  color: rgba(255,255,255,0.55);
+}
+
+.nav-search-input:focus {
+  background: rgba(255,255,255,0.3);
+  width: 260px;
+}
+
+/* Suggestions on the entry page — compact dropdown, not the thick-bordered stripe style */
+body.entry-page .pb-suggestions {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  left: auto;
+  transform: none;
+  width: 260px;
+  max-width: 260px;
+  border-top: none;
+  border-left: 2px solid rgba(0,0,0,0.1);
+  border-right: 2px solid rgba(0,0,0,0.1);
+  border-bottom: 2px solid rgba(0,0,0,0.1);
+  border-radius: 0 0 10px 10px;
+  background-color: #fff;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+body.entry-page .pb-suggestion {
+  color: #222;
+}
+
+body.entry-page .pb-suggestion:hover,
+body.entry-page .pb-suggestion.is-active {
+  background-color: var(--accent);
+  color: var(--accent-fg);
+}
+
+.entry-main {
+  max-width: 1060px;
+  margin: 2rem auto;
+  padding: 0 1.5rem 3rem;
+}
+
+.entry-card {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 2.5rem;
+  align-items: start;
+  background: #fff;
+  border-radius: 20px;
+  padding: 2rem 2.5rem;
+  box-shadow: 0 2px 18px rgba(0,0,0,0.07);
+}
+
+/* ---- Left column ---- */
+
+.entry-art-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.entry-artwork-box {
+  width: 280px;
+  height: 280px;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.entry-artwork {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  transition: opacity 0.2s;
+}
+
+.entry-sprite-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.entry-sprite {
+  width: 96px;
+  height: 96px;
+  image-rendering: pixelated;
+  transition: opacity 0.15s;
+}
+
+.shiny-btn {
+  padding: 0.4rem 1rem;
+  border: 2px solid #ddd;
+  border-radius: 20px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #aaa;
+  transition: border-color 0.2s, background 0.2s, color 0.2s;
+}
+
+.shiny-btn:hover {
+  border-color: #F5C800;
+  color: #888;
+}
+
+.shiny-btn.active {
+  border-color: #F5C800;
+  background: #FFFBEA;
+  color: #9A7500;
+}
+
+/* ---- Right column ---- */
+
+.entry-info-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  padding-top: 0.25rem;
+}
+
+.entry-number {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #bbb;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.15rem;
+}
+
+.entry-name {
+  font-size: 2.4rem;
+  font-weight: 900;
+  color: #111;
+  line-height: 1.1;
+  margin: 0 0 0.6rem;
+}
+
+.entry-types {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* Type badges */
+.type-badge {
+  display: inline-block;
+  padding: 0.22rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: capitalize;
+  color: #fff;
+  letter-spacing: 0.04em;
+}
+
+.type-normal   { background: #9FA19F; }
+.type-fire     { background: #E62829; }
+.type-water    { background: #2980EF; }
+.type-electric { background: #FAC000; color: #111; }
+.type-grass    { background: #3FA129; }
+.type-ice      { background: #3DCEF3; color: #111; }
+.type-fighting { background: #FF8000; }
+.type-poison   { background: #9141CB; }
+.type-ground   { background: #915121; }
+.type-flying   { background: #81B9EF; color: #111; }
+.type-psychic  { background: #EF4179; }
+.type-bug      { background: #91A119; }
+.type-rock     { background: #AFA981; color: #111; }
+.type-ghost    { background: #704170; }
+.type-dragon   { background: #5060E1; }
+.type-dark     { background: #624D4E; }
+.type-steel    { background: #60A1B8; }
+.type-fairy    { background: #EF70EF; }
+
+/* Physical info boxes */
+.entry-physical {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.phys-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background: #f5f5f5;
+  border-radius: 10px;
+  min-width: 82px;
+  gap: 0.1rem;
+}
+
+.phys-label {
+  font-size: 0.68rem;
+  color: #aaa;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-weight: 700;
+}
+
+.phys-value {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #222;
+}
+
+/* Abilities */
+.entry-section-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #bbb;
+  margin: 0 0 0.55rem;
+}
+
+.ability-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.ability-card {
+  padding: 0.75rem 1rem;
+  background: #f7f7f7;
+  border-radius: 10px;
+  border-left: 3px solid var(--accent);
+}
+
+.ability-card--hidden {
+  border-left-style: dashed;
+  background: #fafafa;
+}
+
+.ability-card__header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.3rem;
+}
+
+.ability-card__name {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #222;
+}
+
+.ability-card__badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #aaa;
+  border: 1.5px dashed #ccc;
+  border-radius: 20px;
+  padding: 0.1rem 0.5rem;
+}
+
+.ability-card__desc {
+  font-size: 0.83rem;
+  color: #666;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Stat bars */
+.stat-row {
+  display: grid;
+  grid-template-columns: 58px 36px 1fr;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.45rem;
+}
+
+.stat-name {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #aaa;
+  text-align: right;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.stat-num {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #333;
+  text-align: right;
+}
+
+.stat-track {
+  height: 8px;
+  background: #eee;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.stat-bar {
+  height: 100%;
+  width: 0;
+  border-radius: 4px;
+  background-color: var(--c, #888);
+  animation: growBar 0.65s ease forwards;
+}
+
+/* Stats above the 150 ceiling get a diagonal stripe overlay */
+.stat-bar--overflow {
+  background-image: repeating-linear-gradient(
+    -55deg,
+    transparent        0,
+    transparent        5px,
+    rgba(255,255,255,0.28) 5px,
+    rgba(255,255,255,0.28) 9px
+  );
+}
+
+@keyframes growBar {
+  to { width: var(--w, 0%); }
+}
+
+.stat-total-row {
+  margin-top: 0.4rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid #eee;
+}
+
+.stat-total-row .stat-name {
+  color: #666;
+  font-weight: 800;
+}
+
+.total-num {
+  color: var(--accent);
+  font-weight: 800;
+  font-size: 1rem;
+}
+
+/* Pokédex flavor text */
+.entry-flavor {
+  margin-top: 1.1rem;
+  font-size: 0.82rem;
+  font-style: italic;
+  color: #888;
+  line-height: 1.55;
+  text-align: center;
+  padding: 0 0.25rem;
+}
+
+.entry-flavor-game {
+  display: block;
+  font-style: normal;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #bbb;
+  margin-top: 0.35rem;
+}
+
+/* Alternate forms gallery */
+.entry-forms {
+  max-width: 900px;
+  margin: 0 auto 2rem;
+  padding: 0 2rem;
+}
+
+.entry-forms-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #bbb;
+  margin-bottom: 0.8rem;
+}
+
+.forms-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.form-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  width: 140px;
+  padding: 1rem 0.75rem;
+  background: #fff;
+  border-radius: 12px;
+  border: 2px solid #e8e8e8;
+  color: inherit;
+  cursor: pointer;
+  user-select: none;
+  transition: border-color .18s, box-shadow .18s;
+}
+
+.form-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 4px 14px rgba(0,0,0,.09);
+}
+
+.form-card--active {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent);
+}
+
+.form-artwork {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+}
+
+.form-name {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-align: center;
+  color: #333;
+}
+
+.form-types {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  justify-content: center;
+}
+
+/* Responsive */
+@media (max-width: 720px) {
+  .entry-card {
+    grid-template-columns: 1fr;
+    padding: 1.5rem;
+  }
+
+  .entry-artwork-box { width: 200px; height: 200px; }
+  .entry-name    { font-size: 1.8rem; }
+  .forms-grid    { gap: .75rem; }
+  .form-card     { width: 120px; }
+  .form-artwork  { width: 80px; height: 80px; }
 }

@@ -3,21 +3,48 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title><%= title %></title>
+  <title>Burgédex</title>
   <link rel="stylesheet" href="/css/style.css" />
 </head>
-<body>
-  <nav>
-    <a href="/">Home</a>
-    <a href="/about">About</a>
-  </nav>
-  <main>
-    <h1><%= message %></h1>
-    <p>This is your new Node.js + Express + EJS website. Edit <code>views/index.ejs</code> to get started.</p>
-  </main>
-  <footer>
-    <p>&copy; <%= new Date().getFullYear() %> Burgédex</p>
-  </footer>
+<body class="pokeball-home" data-theme="pokeball">
+
+  <section class="pb-top">
+    <h1 class="pb-title">Burgédex</h1>
+    <p class="pb-tagline">Gotta catch 'em all</p>
+  </section>
+
+  <div class="pb-band">
+    <form class="pb-search" action="/pokemon" method="GET">
+      <input
+        id="pb-search-input"
+        class="pb-search__input"
+        type="text"
+        name="q"
+        placeholder="Search Pokémon..."
+        autocomplete="off"
+      />
+      <button class="pb-search__btn" type="submit" aria-label="Search"></button>
+    </form>
+    <ul class="pb-suggestions" id="pb-suggestions" hidden></ul>
+  </div>
+
+  <section class="pb-bottom">
+    <div class="theme-picker" role="group" aria-label="Choose Pokéball theme">
+      <button class="theme-dot" data-theme="pokeball"    title="Poké Ball"></button>
+      <button class="theme-dot" data-theme="greatball"   title="Great Ball"></button>
+      <button class="theme-dot" data-theme="ultraball"   title="Ultra Ball"></button>
+      <button class="theme-dot" data-theme="masterball"  title="Master Ball"></button>
+      <button class="theme-dot" data-theme="safariball"  title="Safari Ball"></button>
+      <button class="theme-dot" data-theme="netball"     title="Net Ball"></button>
+      <button class="theme-dot" data-theme="diveball"    title="Dive Ball"></button>
+      <button class="theme-dot" data-theme="healball"    title="Heal Ball"></button>
+      <button class="theme-dot" data-theme="duskball"    title="Dusk Ball"></button>
+      <button class="theme-dot" data-theme="luxuryball"  title="Luxury Ball"></button>
+      <button class="theme-dot" data-theme="moonball"    title="Moon Ball"></button>
+      <button class="theme-dot" data-theme="premierball" title="Premier Ball"></button>
+    </div>
+  </section>
+
   <script src="/js/main.js"></script>
 </body>
 </html>
