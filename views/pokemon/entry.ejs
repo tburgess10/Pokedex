@@ -85,28 +85,63 @@
       <!-- Right: info -->
       <div class="entry-info-col">
 
-        <div class="entry-header">
-          <span class="entry-number">#<%= String(pokemon.id).padStart(4, '0') %></span>
-          <h1 class="entry-name"><%= pokemon.capName %></h1>
-          <div class="entry-types">
-            <% pokemon.types.forEach(t => { %>
-              <span class="type-badge type-<%= t.type.name %>"><%= t.type.name %></span>
-            <% }); %>
+        <div class="entry-info-top">
+
+          <div class="entry-header">
+            <span class="entry-number">#<%= String(pokemon.id).padStart(4, '0') %></span>
+            <h1 class="entry-name"><%= pokemon.capName %></h1>
+            <div class="entry-types">
+              <% pokemon.types.forEach(t => { %>
+                <span class="type-badge type-<%= t.type.name %>"><%= t.type.name %></span>
+              <% }); %>
+            </div>
           </div>
+
+          <%
+            const tcGroups = { 4: [], 2: [], 0.5: [], 0.25: [], 0: [] };
+            Object.entries(pokemon.typeEffectiveness).forEach(([type, mult]) => {
+              if (tcGroups[mult] !== undefined) tcGroups[mult].push(type);
+            });
+            const tcRows = [
+              { mult: 4,    label: '4×',  cls: 'tc-x4'   },
+              { mult: 2,    label: '2×',  cls: 'tc-x2'   },
+              { mult: 0.5,  label: '½×',  cls: 'tc-half' },
+              { mult: 0.25, label: '¼×',  cls: 'tc-qtr'  },
+              { mult: 0,    label: '0×',  cls: 'tc-zero' },
+            ];
+          %>
+          <div class="type-chart">
+            <h2 class="entry-section-title">Type Matchups</h2>
+            <div id="tc-body">
+              <% tcRows.forEach(function(row) { %>
+                <% if (tcGroups[row.mult] && tcGroups[row.mult].length > 0) { %>
+                <div class="tc-row">
+                  <span class="tc-mult <%= row.cls %>"><%= row.label %></span>
+                  <div class="tc-badges">
+                    <% tcGroups[row.mult].forEach(function(t) { %>
+                      <span class="type-badge type-<%= t %>"><%= t %></span>
+                    <% }); %>
+                  </div>
+                </div>
+                <% } %>
+              <% }); %>
+            </div>
+          </div>
+
         </div>
 
         <div class="entry-physical">
           <div class="phys-box">
             <span class="phys-label">Height</span>
-            <span class="phys-value"><%= (pokemon.height / 10).toFixed(1) %> m</span>
+            <span class="phys-value" id="phys-height"><%= (pokemon.height / 10).toFixed(1) %> m</span>
           </div>
           <div class="phys-box">
             <span class="phys-label">Weight</span>
-            <span class="phys-value"><%= (pokemon.weight / 10).toFixed(1) %> kg</span>
+            <span class="phys-value" id="phys-weight"><%= (pokemon.weight / 10).toFixed(1) %> kg</span>
           </div>
           <div class="phys-box">
             <span class="phys-label">Base XP</span>
-            <span class="phys-value"><%= pokemon.base_experience %></span>
+            <span class="phys-value" id="phys-base-exp"><%= pokemon.base_experience %></span>
           </div>
         </div>
 
@@ -133,19 +168,23 @@
 
         <div class="entry-stats">
           <h2 class="entry-section-title">Base Stats</h2>
-          <% pokemon.stats.forEach(s => { %>
-            <div class="stat-row">
-              <span class="stat-name"><%= statLabels[s.stat.name] || s.stat.name %></span>
-              <span class="stat-num"><%= s.base_stat %></span>
+          <div id="stats-body">
+            <% pokemon.stats.forEach(s => { %>
+              <div class="stat-row">
+                <span class="stat-name"><%= statLabels[s.stat.name] || s.stat.name %></span>
+                <span class="stat-num"><%= s.base_stat %></span>
+                <div class="stat-track">
+                  <div class="stat-bar <%= s.base_stat > 150 ? 'stat-bar--overflow' : '' %>" style="--w:<%= Math.min(100, Math.round(s.base_stat / 150 * 100)) %>%;--c:<%= statColor(s.base_stat) %>"></div>
+                </div>
+              </div>
+            <% }); %>
+            <div class="stat-row stat-total-row">
+              <span class="stat-name">Total</span>
+              <span class="stat-num total-num"><%= total %></span>
               <div class="stat-track">
-                <div class="stat-bar <%= s.base_stat > 150 ? 'stat-bar--overflow' : '' %>" style="--w:<%= Math.min(100, Math.round(s.base_stat / 150 * 100)) %>%;--c:<%= statColor(s.base_stat) %>"></div>
+                <div class="stat-bar <%= total > 720 ? 'stat-bar--overflow' : '' %>" style="--w:<%= Math.min(100, Math.round(total / 720 * 100)) %>%;--c:var(--accent)"></div>
               </div>
             </div>
-          <% }); %>
-          <div class="stat-row stat-total-row">
-            <span class="stat-name">Total</span>
-            <span class="stat-num total-num"><%= total %></span>
-            <div class="stat-track"></div>
           </div>
         </div>
 
@@ -162,7 +201,12 @@
              data-artwork-shiny="<%= shinyArtwork || '' %>"
              data-sprite="<%= pokemon.sprites.front_default %>"
              data-sprite-shiny="<%= pokemon.sprites.front_shiny || '' %>"
-             data-types="<%= pokemon.types.map(t => t.type.name).join(',') %>">
+             data-types="<%= pokemon.types.map(t => t.type.name).join(',') %>"
+             data-effectiveness='<%= JSON.stringify(pokemon.typeEffectiveness) %>'
+             data-stats='<%= JSON.stringify(pokemon.stats) %>'
+             data-height="<%= pokemon.height %>"
+             data-weight="<%= pokemon.weight %>"
+             data-base-exp="<%= pokemon.base_experience %>">
           <img class="form-artwork"
                src="<%= pokemon.sprites.other['official-artwork'].front_default %>"
                alt="Base" />
@@ -187,7 +231,12 @@
                data-artwork-shiny="<%= f.artworkShiny || '' %>"
                data-sprite="<%= f.sprite || '' %>"
                data-sprite-shiny="<%= f.spriteShiny || '' %>"
-               data-types="<%= typeStr %>">
+               data-types="<%= typeStr %>"
+               data-effectiveness='<%= JSON.stringify(f.typeEffectiveness) %>'
+               data-stats='<%= JSON.stringify(f.stats) %>'
+               data-height="<%= f.height %>"
+               data-weight="<%= f.weight %>"
+               data-base-exp="<%= f.baseExperience %>">
             <% if (f.artwork) { %>
               <img class="form-artwork" src="<%= f.artwork %>" alt="<%= formLabel %>" />
             <% } %>
@@ -200,6 +249,35 @@
           </div>
         <% }); %>
 
+      </div>
+    </div>
+    <% } %>
+
+    <% if (pokemon.evolutionStages && pokemon.evolutionStages.length > 1) { %>
+    <div class="entry-evolutions">
+      <h2 class="entry-forms-title">Evolution Line</h2>
+      <div class="evo-chain">
+        <% pokemon.evolutionStages.forEach(function(stage, si) { %>
+          <% if (si > 0) { %><div class="evo-arrow">→</div><% } %>
+          <div class="evo-stage <%= stage.length > 1 ? 'evo-stage--branched' : '' %>">
+            <% stage.forEach(function(mon) { %>
+              <%
+                const isCurrent = mon.id === pokemon.speciesId;
+                const evoLabel  = mon.name.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+              %>
+              <a class="evo-card <%= isCurrent ? 'evo-card--current' : '' %>"
+                 href="/pokemon/<%= mon.name %>">
+                <% if (mon.trigger) { %>
+                  <span class="evo-trigger"><%= mon.trigger %></span>
+                <% } %>
+                <img class="evo-sprite"
+                     src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/<%= mon.id %>.png"
+                     alt="<%= evoLabel %>" />
+                <span class="evo-name"><%= evoLabel %></span>
+              </a>
+            <% }); %>
+          </div>
+        <% }); %>
       </div>
     </div>
     <% } %>

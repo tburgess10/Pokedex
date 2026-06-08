@@ -57,6 +57,77 @@
     });
   }
 
+  /* ---- Stat bar renderer ---- */
+
+  const STAT_LABELS = {
+    'hp': 'HP', 'attack': 'Attack', 'defense': 'Defense',
+    'special-attack': 'Sp. Atk', 'special-defense': 'Sp. Def', 'speed': 'Speed'
+  };
+
+  function statColor(v) {
+    if (v < 60)  return '#E74C3C';
+    if (v < 90)  return '#F39C12';
+    if (v < 120) return '#2ECC71';
+    return '#3498DB';
+  }
+
+  function renderStats(stats) {
+    const body = document.getElementById('stats-body');
+    if (!body) return;
+    const total = stats.reduce(function (s, x) { return s + x.base_stat; }, 0);
+    const rows = stats.map(function (s) {
+      const label    = STAT_LABELS[s.stat.name] || s.stat.name;
+      const w        = Math.min(100, Math.round(s.base_stat / 150 * 100));
+      const c        = statColor(s.base_stat);
+      const overflow = s.base_stat > 150 ? ' stat-bar--overflow' : '';
+      return '<div class="stat-row">' +
+        '<span class="stat-name">' + label + '</span>' +
+        '<span class="stat-num">' + s.base_stat + '</span>' +
+        '<div class="stat-track">' +
+          '<div class="stat-bar' + overflow + '" style="--w:' + w + '%;--c:' + c + '"></div>' +
+        '</div></div>';
+    }).join('');
+    const totalW       = Math.min(100, Math.round(total / 720 * 100));
+    const totalOverflow = total > 720 ? ' stat-bar--overflow' : '';
+    const totalRow = '<div class="stat-row stat-total-row">' +
+      '<span class="stat-name">Total</span>' +
+      '<span class="stat-num total-num">' + total + '</span>' +
+      '<div class="stat-track">' +
+        '<div class="stat-bar' + totalOverflow + '" style="--w:' + totalW + '%;--c:var(--accent)"></div>' +
+      '</div></div>';
+    body.innerHTML = rows + totalRow;
+  }
+
+  /* ---- Type chart renderer ---- */
+
+  const TC_ROWS = [
+    { mult: 4,    label: '4×',  cls: 'tc-x4'   },
+    { mult: 2,    label: '2×',  cls: 'tc-x2'   },
+    { mult: 0.5,  label: '½×',  cls: 'tc-half' },
+    { mult: 0.25, label: '¼×',  cls: 'tc-qtr'  },
+    { mult: 0,    label: '0×',  cls: 'tc-zero' },
+  ];
+
+  function renderTypeChart(eff) {
+    const body = document.getElementById('tc-body');
+    if (!body) return;
+    const groups = {};
+    Object.keys(eff).forEach(function (t) {
+      const m = eff[t];
+      if (!groups[m]) groups[m] = [];
+      groups[m].push(t);
+    });
+    body.innerHTML = TC_ROWS
+      .filter(function (r) { return groups[r.mult] && groups[r.mult].length > 0; })
+      .map(function (r) {
+        const badges = groups[r.mult]
+          .map(function (t) { return '<span class="type-badge type-' + t + '">' + t + '</span>'; })
+          .join('');
+        return '<div class="tc-row"><span class="tc-mult ' + r.cls + '">' + r.label + '</span><div class="tc-badges">' + badges + '</div></div>';
+      })
+      .join('');
+  }
+
   /* ---- Form switcher (entry page only) ---- */
 
   const formsGrid = document.getElementById('forms-grid');
@@ -100,6 +171,21 @@
           .map(function (t) { return '<span class="type-badge type-' + t + '">' + t + '</span>'; })
           .join('');
       }
+
+      // Update type chart
+      try { renderTypeChart(JSON.parse(card.dataset.effectiveness || '{}')); } catch (_) {}
+
+      // Update stats
+      try { renderStats(JSON.parse(card.dataset.stats || '[]')); } catch (_) {}
+
+      // Update physical values
+      const h = card.dataset.height, w = card.dataset.weight, xp = card.dataset.baseExp;
+      const heightEl  = document.getElementById('phys-height');
+      const weightEl  = document.getElementById('phys-weight');
+      const baseExpEl = document.getElementById('phys-base-exp');
+      if (heightEl  && h)  heightEl.textContent  = (parseFloat(h)  / 10).toFixed(1) + ' m';
+      if (weightEl  && w)  weightEl.textContent  = (parseFloat(w)  / 10).toFixed(1) + ' kg';
+      if (baseExpEl && xp) baseExpEl.textContent = xp;
     });
   }
 

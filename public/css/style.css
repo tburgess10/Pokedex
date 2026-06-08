@@ -846,6 +846,50 @@ body.entry-page .pb-suggestion.is-active {
   padding-top: 0.25rem;
 }
 
+.entry-info-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+}
+
+.entry-header {
+  flex: 1;
+  min-width: 0;
+}
+
+.type-chart {
+  flex-shrink: 0;
+  width: 185px;
+}
+
+.tc-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.3rem;
+  flex-wrap: wrap;
+}
+
+.tc-mult {
+  font-size: 0.72rem;
+  font-weight: 800;
+  width: 24px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.tc-x4   { color: #b91c1c; }
+.tc-x2   { color: #ef4444; }
+.tc-half { color: #16a34a; }
+.tc-qtr  { color: #15803d; }
+.tc-zero { color: #9ca3af; }
+
+.tc-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
 .entry-number {
   display: block;
   font-size: 0.85rem;
@@ -1083,6 +1127,92 @@ body.entry-page .pb-suggestion.is-active {
   letter-spacing: 0.08em;
   color: #bbb;
   margin-top: 0.35rem;
+}
+
+/* Evolution chain */
+.entry-evolutions {
+  max-width: 900px;
+  margin: 0 auto 2rem;
+  padding: 0 2rem;
+}
+
+.evo-chain {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+}
+
+.evo-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.evo-stage--branched {
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  max-width: 290px;
+}
+
+.evo-arrow {
+  font-size: 1.4rem;
+  color: #ccc;
+  flex-shrink: 0;
+  padding: 0 0.25rem;
+}
+
+.evo-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: 10px;
+  border: 2px solid #e8e8e8;
+  background: #fff;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  min-width: 80px;
+  transition: border-color .18s;
+}
+
+.evo-card:hover {
+  border-color: var(--accent);
+}
+
+.evo-card--current {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent);
+  pointer-events: none;
+}
+
+.evo-sprite {
+  width: 72px;
+  height: 72px;
+  image-rendering: pixelated;
+}
+
+.evo-name {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-align: center;
+  color: #333;
+}
+
+.evo-trigger {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  text-align: center;
 }
 
 /* Alternate forms gallery */
