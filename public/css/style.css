@@ -865,6 +865,12 @@ body.entry-page .pb-suggestion.is-active {
   gap: 1rem;
 }
 
+.entry-sprite-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
 .entry-sprite {
   width: 96px;
   height: 96px;
@@ -881,6 +887,7 @@ body.entry-page .pb-suggestion.is-active {
   font-size: 0.85rem;
   font-weight: 600;
   color: #aaa;
+  min-height: 44px;
   transition: border-color 0.2s, background 0.2s, color 0.2s;
 }
 
@@ -893,6 +900,36 @@ body.entry-page .pb-suggestion.is-active {
   border-color: #F5C800;
   background: #FFFBEA;
   color: #9A7500;
+}
+
+.cry-btn {
+  padding: 0.4rem 1rem;
+  border: 2px solid #ddd;
+  border-radius: 20px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #aaa;
+  min-height: 44px;
+  transition: border-color 0.2s, background 0.2s, color 0.2s;
+}
+
+.cry-btn:hover {
+  border-color: var(--accent);
+  color: #888;
+}
+
+.cry-btn.playing {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, #fff);
+  color: var(--accent);
+  animation: cry-pulse 0.6s ease infinite alternate;
+}
+
+@keyframes cry-pulse {
+  from { opacity: 1; }
+  to   { opacity: 0.6; }
 }
 
 /* ---- Right column ---- */

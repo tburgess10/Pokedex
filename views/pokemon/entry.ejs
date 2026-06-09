@@ -88,7 +88,12 @@
             data-shiny="<%= pokemon.sprites.front_shiny %>"
             alt="<%= pokemon.capName %> sprite"
           />
-          <button class="shiny-btn" id="shiny-btn">✦ Shiny</button>
+          <div class="entry-sprite-btns">
+            <button class="shiny-btn" id="shiny-btn">✦ Shiny</button>
+            <% if (pokemon.cries && pokemon.cries.latest) { %>
+              <button class="cry-btn" id="cry-btn" data-cry="<%= pokemon.cries.latest %>">♪ Cry</button>
+            <% } %>
+          </div>
         </div>
         <% if (pokemon.flavorText) { %>
         <p class="entry-flavor">

@@ -57,6 +57,29 @@
     });
   }
 
+  /* ---- Cry button (entry page only) ---- */
+
+  const cryBtn = document.getElementById('cry-btn');
+  if (cryBtn) {
+    let cryAudio = null;
+    cryBtn.addEventListener('click', function () {
+      if (cryAudio && !cryAudio.paused) {
+        cryAudio.pause();
+        cryAudio.currentTime = 0;
+        cryBtn.classList.remove('playing');
+        return;
+      }
+      cryAudio = new Audio(cryBtn.dataset.cry);
+      cryBtn.classList.add('playing');
+      cryAudio.play().catch(function () {
+        cryBtn.classList.remove('playing');
+      });
+      cryAudio.addEventListener('ended', function () {
+        cryBtn.classList.remove('playing');
+      });
+    });
+  }
+
   /* ---- Stat bar renderer ---- */
 
   const STAT_LABELS = {
