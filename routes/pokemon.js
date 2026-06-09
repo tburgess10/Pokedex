@@ -217,9 +217,9 @@ router.get('/:id', async (req, res) => {
                     pokedata.flavorGame = '';
                 }
 
-                // Fetch forms + evolution chain + moves in parallel
+                // Fetch forms + evolution chain in parallel; moves load lazily on the client
                 const otherVarieties = speciesData.varieties.filter(v => v.pokemon.name !== pokedata.name);
-                const [formResults, evoChainRes, movesResult] = await Promise.all([
+                const [formResults, evoChainRes] = await Promise.all([
                     Promise.all(
                         otherVarieties.map(async (v) => {
                             try {
@@ -263,13 +263,12 @@ router.get('/:id', async (req, res) => {
                         })
                     ),
                     fetch(speciesData.evolution_chain.url),
-                    fetchVersionGroupMoves(pokedata.moves),
                 ]);
 
                 pokedata.forms               = formResults.filter(f => f !== null);
-                pokedata.movesTable          = movesResult.table;
-                pokedata.movesVersionGroup   = movesResult.versionGroup;
-                pokedata.movesVersionGroupId = movesResult.versionGroupId;
+                pokedata.movesTable          = {};
+                pokedata.movesVersionGroup   = '';
+                pokedata.movesVersionGroupId = '';
 
                 // Parse evolution chain into stages array
                 if (evoChainRes.ok) {

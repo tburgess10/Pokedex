@@ -316,18 +316,22 @@
 
   var movesVgSelect = document.getElementById('moves-vg-select');
   if (movesVgSelect) {
-    movesVgSelect.addEventListener('change', async function () {
-      var pokemonName = this.dataset.pokemon;
-      var vg = this.value;
-      this.disabled = true;
+    async function fetchMoves(pokemonName, vg) {
+      movesVgSelect.disabled = true;
       try {
         var res  = await fetch('/pokemon/' + encodeURIComponent(pokemonName) + '/moves?vg=' + encodeURIComponent(vg));
         if (!res.ok) throw new Error();
         var data = await res.json();
         renderMovesSection(data.table);
       } catch (_) { /* keep existing */ }
-      this.disabled = false;
+      movesVgSelect.disabled = false;
+    }
+
+    movesVgSelect.addEventListener('change', function () {
+      fetchMoves(this.dataset.pokemon, this.value);
     });
+
+    fetchMoves(movesVgSelect.dataset.pokemon, movesVgSelect.value);
   }
 
   const movesTabs   = document.querySelector('.moves-tabs');

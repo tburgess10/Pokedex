@@ -317,87 +317,22 @@
     </div>
     <% } %>
 
-    <% if (pokemon.movesTable && Object.keys(pokemon.movesTable).length > 0) { %>
-    <%
-      const METHOD_LABELS = { 'level-up': 'Level Up', 'machine': 'TM', 'egg': 'Egg', 'tutor': 'Tutor' };
-      const moveMethods   = Object.keys(pokemon.movesTable);
-    %>
+    <% if (pokemon.availableVersionGroups && pokemon.availableVersionGroups.length > 0) { %>
     <div class="entry-moves">
       <div class="entry-moves__header">
         <h2 class="entry-forms-title">Moves</h2>
-        <% if (pokemon.availableVersionGroups && pokemon.availableVersionGroups.length > 0) { %>
-          <select id="moves-vg-select" class="moves-vg-select" data-pokemon="<%= pokemon.name %>">
-            <% pokemon.availableVersionGroups.forEach(function(vg) { %>
-              <option value="<%= vg.id %>" <%= vg.id === pokemon.movesVersionGroupId ? 'selected' : '' %>>
-                <%= vg.label %>
-              </option>
-            <% }); %>
-          </select>
-        <% } %>
+        <select id="moves-vg-select" class="moves-vg-select" data-pokemon="<%= pokemon.name %>">
+          <% pokemon.availableVersionGroups.forEach(function(vg) { %>
+            <option value="<%= vg.id %>"><%= vg.label %></option>
+          <% }); %>
+        </select>
       </div>
-
       <div class="moves-tabs-row">
         <div class="moves-tabs">
-          <% moveMethods.forEach(function(method, i) { %>
-            <button class="moves-tab-btn <%= i === 0 ? 'moves-tab-btn--active' : '' %>"
-                    data-method="<%= method %>">
-              <%= METHOD_LABELS[method] || method %>
-            </button>
-          <% }); %>
+          <span style="font-size:.85rem;opacity:.6">Loading moves…</span>
         </div>
-        <input
-          type="text"
-          id="moves-search"
-          class="moves-search"
-          placeholder="Search moves…"
-          autocomplete="off"
-        />
+        <input type="text" id="moves-search" class="moves-search" placeholder="Search moves…" autocomplete="off" />
       </div>
-
-      <% moveMethods.forEach(function(method, i) { %>
-        <div class="moves-panel <%= i > 0 ? 'moves-panel--hidden' : '' %>" data-method="<%= method %>">
-          <div class="moves-table-wrap">
-            <table class="moves-table">
-              <thead>
-                <tr>
-                  <% if (method === 'level-up') { %><th class="moves-th moves-th--lv">Lv</th><% } %>
-                  <th class="moves-th moves-th--name">Move</th>
-                  <th class="moves-th">Type</th>
-                  <th class="moves-th">Cat</th>
-                  <th class="moves-th moves-th--num">Pwr</th>
-                  <th class="moves-th moves-th--num">Acc</th>
-                  <th class="moves-th moves-th--num">PP</th>
-                </tr>
-              </thead>
-              <tbody>
-                <% pokemon.movesTable[method].forEach(function(m) { %>
-                  <tr class="moves-row">
-                    <% if (method === 'level-up') { %>
-                      <td class="moves-td moves-td--lv"><%= m.level || '—' %></td>
-                    <% } %>
-                    <td class="moves-td moves-td--name"><a href="/moves/<%= m.name %>" class="move-link"><%= m.displayName %></a></td>
-                    <td class="moves-td">
-                      <% if (m.type) { %>
-                        <span class="type-badge type-<%= m.type %>"><%= m.type %></span>
-                      <% } else { %>—<% } %>
-                    </td>
-                    <td class="moves-td">
-                      <% if (m.damageClass) { %>
-                        <span class="move-cat move-cat--<%= m.damageClass %>">
-                          <%= m.damageClass === 'physical' ? 'Phys' : m.damageClass === 'special' ? 'Spec' : 'Stat' %>
-                        </span>
-                      <% } else { %>—<% } %>
-                    </td>
-                    <td class="moves-td moves-td--num"><%= m.power    !== null ? m.power    : '—' %></td>
-                    <td class="moves-td moves-td--num"><%= m.accuracy !== null ? m.accuracy : '—' %></td>
-                    <td class="moves-td moves-td--num"><%= m.pp       !== null ? m.pp       : '—' %></td>
-                  </tr>
-                <% }); %>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      <% }); %>
     </div>
     <% } %>
 
