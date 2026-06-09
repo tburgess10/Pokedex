@@ -42,6 +42,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
+// Make currentSection available to every template for nav highlighting
+app.use((req, res, next) => {
+  if      (req.path.startsWith('/pokedex'))  res.locals.currentSection = 'pokedex';
+  else if (req.path.startsWith('/types'))    res.locals.currentSection = 'types';
+  else if (req.path.startsWith('/moves'))    res.locals.currentSection = 'moves';
+  else if (req.path.startsWith('/about'))    res.locals.currentSection = 'about';
+  else                                       res.locals.currentSection = '';
+  next();
+});
+
 app.use('/', indexRouter);
 app.use('/pokemon', pokemonRouter);
 app.use('/pokedex', pokedexRouter);

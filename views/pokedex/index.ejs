@@ -11,9 +11,10 @@
   <nav class="entry-nav">
     <div class="entry-nav__links">
       <a href="/">← Home</a>
-      <a href="/types">Types</a>
-      <a href="/moves">Moves</a>
-      <a href="/about">About</a>
+      <a href="/pokedex" class="<%= currentSection === 'pokedex' ? 'nav-link--active' : '' %>">Pokédex</a>
+      <a href="/types"   class="<%= currentSection === 'types'   ? 'nav-link--active' : '' %>">Types</a>
+      <a href="/moves"   class="<%= currentSection === 'moves'   ? 'nav-link--active' : '' %>">Moves</a>
+      <a href="/about"   class="<%= currentSection === 'about'   ? 'nav-link--active' : '' %>">About</a>
     </div>
     <div class="entry-nav__search">
       <form action="/pokemon" method="GET">

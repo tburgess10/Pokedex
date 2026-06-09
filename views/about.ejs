@@ -3,21 +3,42 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title><%= title %></title>
+  <title>About — Burgédex</title>
+  <script>try{var t=localStorage.getItem('burgedex-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
   <link rel="stylesheet" href="/css/style.css" />
 </head>
-<body>
-  <nav>
-    <a href="/">Home</a>
-    <a href="/about">About</a>
+<body class="entry-page">
+  <nav class="entry-nav">
+    <div class="entry-nav__links">
+      <a href="/">← Home</a>
+      <a href="/pokedex" class="<%= currentSection === 'pokedex' ? 'nav-link--active' : '' %>">Pokédex</a>
+      <a href="/types"   class="<%= currentSection === 'types'   ? 'nav-link--active' : '' %>">Types</a>
+      <a href="/moves"   class="<%= currentSection === 'moves'   ? 'nav-link--active' : '' %>">Moves</a>
+      <a href="/about"   class="<%= currentSection === 'about'   ? 'nav-link--active' : '' %>">About</a>
+    </div>
+    <span class="entry-nav__brand">Burgédex</span>
+    <div class="entry-nav__search">
+      <form action="/pokemon" method="GET">
+        <input
+          id="pb-search-input"
+          class="nav-search-input"
+          type="text"
+          name="q"
+          placeholder="Search Pokémon..."
+          autocomplete="off"
+        />
+      </form>
+      <ul class="pb-suggestions" id="pb-suggestions" hidden></ul>
+    </div>
   </nav>
-  <main>
-    <h1>About</h1>
-    <p>This is the about page. Edit <code>views/about.ejs</code> to customize it.</p>
+
+  <main style="max-width:680px;margin:3rem auto;padding:0 1.5rem;">
+    <h1>About Burgédex</h1>
+    <p>Burgédex is a personal Pokémon reference built with Node.js, Express, and <a href="https://pokeapi.co" target="_blank" rel="noopener">PokéAPI</a>.</p>
+    <p>Browse Pokémon entries, abilities, moves, and types — all cross-linked so you can explore naturally.</p>
   </main>
-  <footer>
-    <p>&copy; <%= new Date().getFullYear() %> My Node.js Website</p>
-  </footer>
+
+  <footer><p>&copy; <%= new Date().getFullYear() %> Burgédex</p></footer>
   <script src="/js/main.js"></script>
 </body>
 </html>
