@@ -44,10 +44,12 @@
       />
     </div>
 
+    <div id="sort-panel" class="sort-panel"></div>
+
     <div class="gen-tabs" role="tablist">
       <% gens.forEach(function(g) { %>
         <a class="gen-tab <%= g.num === genNum ? 'gen-tab--active' : '' %>"
-           href="/pokedex?gen=<%= g.num %>">
+           href="/pokedex<%= g.num === 0 ? '' : '?gen=' + g.num %>">
           <%= g.label %>
         </a>
       <% }); %>
@@ -57,16 +59,28 @@
       <% pokemon.forEach(function(p) { %>
         <a class="dex-card"
            href="/pokemon/<%= p.name %>"
-           data-name="<%= p.name %>">
+           data-id="<%= p.id %>"
+           data-name="<%= p.name %>"
+           data-type="<%= (p.types && p.types[0]) || '' %>"
+           data-hp="<%= p.hp %>"
+           data-attack="<%= p.attack %>"
+           data-defense="<%= p.defense %>"
+           data-spatk="<%= p.spatk %>"
+           data-spdef="<%= p.spdef %>"
+           data-speed="<%= p.speed %>"
+           data-total="<%= p.total %>"
+           data-height="<%= p.height %>"
+           data-weight="<%= p.weight %>">
           <img
             class="dex-sprite"
             src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/<%= p.id %>.png"
             alt="<%= p.name %>"
+            loading="lazy"
           />
           <span class="dex-number">#<%= String(p.id).padStart(4, '0') %></span>
           <span class="dex-name"><%= p.name.charAt(0).toUpperCase() + p.name.slice(1) %></span>
           <div class="dex-types">
-            <% p.types.forEach(function(t) { %>
+            <% (p.types || []).forEach(function(t) { %>
               <span class="type-badge type-badge--sm type-<%= t %>"><%= t %></span>
             <% }); %>
           </div>

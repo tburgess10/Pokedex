@@ -398,22 +398,121 @@
     });
   }
 
-  /* ---- Pokédex name filter ---- */
+  /* ---- Pokédex multi-sort + name filter ---- */
 
-  const dexFilter = document.getElementById('dex-filter');
+  var dexGrid   = document.getElementById('dex-grid');
+  var sortPanel = document.getElementById('sort-panel');
+  var dexFilter = document.getElementById('dex-filter');
+
+  var SORT_FIELDS = [
+    { key: 'id',      label: '#',        asc: true  },
+    { key: 'name',    label: 'Name',     asc: true  },
+    { key: 'type',    label: 'Type',     asc: true  },
+    { key: 'total',   label: 'Total',    asc: false },
+    { key: 'hp',      label: 'HP',       asc: false },
+    { key: 'attack',  label: 'Attack',   asc: false },
+    { key: 'defense', label: 'Defense',  asc: false },
+    { key: 'spatk',   label: 'Sp. Atk', asc: false },
+    { key: 'spdef',   label: 'Sp. Def', asc: false },
+    { key: 'speed',   label: 'Speed',   asc: false },
+    { key: 'height',  label: 'Height',  asc: false },
+    { key: 'weight',  label: 'Weight',  asc: false },
+  ];
+
+  var activeSorts = []; // [{key, asc}] in priority order
+
+  function runMultiSort() {
+    if (!dexGrid) return;
+    var cards    = Array.from(dexGrid.querySelectorAll('.dex-card'));
+    var criteria = activeSorts.length ? activeSorts : [{ key: 'id', asc: true }];
+
+    cards.sort(function (a, b) {
+      for (var i = 0; i < criteria.length; i++) {
+        var s   = criteria[i];
+        var dir = s.asc ? 1 : -1;
+        var cmp;
+        if (s.key === 'name' || s.key === 'type') {
+          cmp = dir * (a.dataset[s.key] || '').localeCompare(b.dataset[s.key] || '');
+        } else {
+          cmp = dir * ((parseFloat(a.dataset[s.key]) || 0) - (parseFloat(b.dataset[s.key]) || 0));
+        }
+        if (cmp !== 0) return cmp;
+      }
+      return 0;
+    });
+
+    var frag = document.createDocumentFragment();
+    cards.forEach(function (c) { frag.appendChild(c); });
+    dexGrid.appendChild(frag);
+  }
+
+  function renderSortPanel() {
+    if (!sortPanel) return;
+    var activeKeys = activeSorts.map(function (s) { return s.key; });
+
+    var activeHtml = activeSorts.map(function (s, i) {
+      var f = SORT_FIELDS.find(function (f) { return f.key === s.key; });
+      return '<div class="sort-chip sort-chip--on">' +
+        '<span class="sort-chip__num">' + (i + 1) + '</span>' +
+        '<span class="sort-chip__name">' + f.label + '</span>' +
+        '<button class="sort-chip__dir" data-action="dir" data-idx="' + i + '" title="Toggle direction">' +
+          (s.asc ? '↑' : '↓') +
+        '</button>' +
+        '<button class="sort-chip__rm" data-action="rm" data-idx="' + i + '" title="Remove">&times;</button>' +
+      '</div>';
+    }).join('');
+
+    var availHtml = SORT_FIELDS
+      .filter(function (f) { return activeKeys.indexOf(f.key) === -1; })
+      .map(function (f) {
+        return '<button class="sort-chip sort-chip--off" data-action="add" data-key="' + f.key + '">' +
+          f.label +
+        '</button>';
+      }).join('');
+
+    sortPanel.innerHTML =
+      '<span class="sort-panel__label">Sort</span>' +
+      '<div class="sort-section sort-section--on">' + activeHtml + '</div>' +
+      (activeSorts.length ? '<span class="sort-sep">|</span>' : '') +
+      '<div class="sort-section sort-section--off">' + availHtml + '</div>';
+  }
+
+  if (sortPanel) {
+    renderSortPanel();
+
+    sortPanel.addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-action]');
+      if (!btn) return;
+      var action = btn.dataset.action;
+      var idx    = parseInt(btn.dataset.idx);
+
+      if (action === 'dir') {
+        activeSorts[idx].asc = !activeSorts[idx].asc;
+      } else if (action === 'rm') {
+        activeSorts.splice(idx, 1);
+      } else if (action === 'add') {
+        var field = SORT_FIELDS.find(function (f) { return f.key === btn.dataset.key; });
+        if (field) activeSorts.push({ key: field.key, asc: field.asc });
+      }
+
+      renderSortPanel();
+      runMultiSort();
+    });
+  }
+
   if (dexFilter) {
-    const cards   = document.querySelectorAll('.dex-card');
-    const emptyEl = document.getElementById('dex-empty');
+    var dexCards = document.querySelectorAll('.dex-card');
+    var dexEmpty = document.getElementById('dex-empty');
 
     dexFilter.addEventListener('input', function () {
-      const q = this.value.trim().toLowerCase();
-      let visible = 0;
-      cards.forEach(function (card) {
-        const match = card.dataset.name.includes(q);
+      var q = this.value.trim().toLowerCase();
+      var visible = 0;
+      dexCards.forEach(function (card) {
+        var match = card.dataset.name.includes(q);
         card.style.display = match ? '' : 'none';
         if (match) visible++;
       });
-      if (emptyEl) emptyEl.hidden = visible > 0;
+      if (dexEmpty) dexEmpty.hidden = visible > 0;
     });
   }
 
