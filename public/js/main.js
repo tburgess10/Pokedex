@@ -500,6 +500,35 @@
     });
   }
 
+  // Fetch stats in background and update data-* attributes when ready
+  if (dexGrid) {
+    fetch('/pokedex/stats')
+      .then(function (r) { return r.json(); })
+      .then(function (stats) {
+        var byId = {};
+        stats.forEach(function (s) { byId[s.id] = s; });
+        dexGrid.querySelectorAll('.dex-card').forEach(function (card) {
+          var s = byId[parseInt(card.dataset.id)];
+          if (!s) return;
+          card.dataset.hp      = s.hp;
+          card.dataset.attack  = s.attack;
+          card.dataset.defense = s.defense;
+          card.dataset.spatk   = s.spatk;
+          card.dataset.spdef   = s.spdef;
+          card.dataset.speed   = s.speed;
+          card.dataset.total   = s.total;
+          card.dataset.height  = s.height;
+          card.dataset.weight  = s.weight;
+        });
+        // Re-run sort if any stat criteria are active
+        var statKeys = ['hp','attack','defense','spatk','spdef','speed','total','height','weight'];
+        if (activeSorts.some(function (s) { return statKeys.indexOf(s.key) !== -1; })) {
+          runMultiSort();
+        }
+      })
+      .catch(function () {});
+  }
+
   if (dexFilter) {
     var dexCards = document.querySelectorAll('.dex-card');
     var dexEmpty = document.getElementById('dex-empty');

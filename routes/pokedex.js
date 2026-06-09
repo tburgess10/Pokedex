@@ -20,12 +20,15 @@ const GENS = [
   { num: 9, start: 906, end: 1025, label: 'Gen IX'   },
 ];
 
-let dexCache = null;
+// Phase 1: name, id, types only — fast, used for initial page render
+let basicCache = null;
 
-async function getFullDex() {
-  if (dexCache) return dexCache;
+// Phase 2: adds stats, height, weight — fetched in background via GraphQL
+let statsCache = null;
 
-  // Phase 1: list + all type data (parallel)
+async function getBasicDex() {
+  if (basicCache) return basicCache;
+
   const responses = await Promise.all([
     fetch('https://pokeapi.co/api/v2/pokemon?limit=10000'),
     ...ALL_TYPES.map(t => fetch(`https://pokeapi.co/api/v2/type/${t}`))
@@ -43,60 +46,87 @@ async function getFullDex() {
   });
   typeMap['terapagos'] = ['stellar'];
 
-  const baseList = listData.results
+  basicCache = listData.results
     .map(p => {
       const id = parseInt(p.url.match(/\/(\d+)\/$/)[1]);
-      return { name: p.name, id, url: p.url, types: typeMap[p.name] || [] };
+      return { name: p.name, id, types: typeMap[p.name] || [],
+               height: 0, weight: 0, hp: 0, attack: 0, defense: 0,
+               spatk: 0, spdef: 0, speed: 0, total: 0 };
     })
     .filter(p => p.id >= 1 && p.id <= 1025);
 
-  // Phase 2: individual Pokémon data for stats/height/weight (batched)
-  const BATCH = 100;
-  const detailResults = [];
-  for (let i = 0; i < baseList.length; i += BATCH) {
-    const batch = await Promise.allSettled(
-      baseList.slice(i, i + BATCH).map(p => fetch(p.url).then(r => r.json()))
-    );
-    detailResults.push(...batch);
+  return basicCache;
+}
+
+// Single GraphQL request replaces 1025 individual REST calls
+const GQL_URL = 'https://beta.pokeapi.co/graphql/v1beta';
+const GQL_QUERY = `{
+  pokemon_v2_pokemon(where: {id: {_lte: 1025}}) {
+    id height weight
+    pokemon_v2_pokemonstats {
+      base_stat
+      pokemon_v2_stat { name }
+    }
+  }
+}`;
+
+async function warmStats() {
+  if (statsCache) return statsCache;
+  const basic = await getBasicDex();
+
+  const res  = await fetch(GQL_URL, {
+    method:  'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body:    JSON.stringify({ query: GQL_QUERY }),
+  });
+  const { data } = await res.json();
+
+  const statsById = {};
+  for (const p of data.pokemon_v2_pokemon) {
+    const sm = {};
+    for (const s of p.pokemon_v2_pokemonstats) sm[s.pokemon_v2_stat.name] = s.base_stat;
+    const hp      = sm['hp']             || 0;
+    const attack  = sm['attack']         || 0;
+    const defense = sm['defense']        || 0;
+    const spatk   = sm['special-attack'] || 0;
+    const spdef   = sm['special-defense']|| 0;
+    const speed   = sm['speed']          || 0;
+    statsById[p.id] = { height: p.height || 0, weight: p.weight || 0,
+                        hp, attack, defense, spatk, spdef, speed,
+                        total: hp + attack + defense + spatk + spdef + speed };
   }
 
-  dexCache = baseList.map((p, i) => {
-    const res = detailResults[i];
-    if (res.status !== 'fulfilled') {
-      return { name: p.name, id: p.id, types: p.types, height: 0, weight: 0, hp: 0, attack: 0, defense: 0, spatk: 0, spdef: 0, speed: 0, total: 0 };
-    }
-    const d  = res.value;
-    const sm = {};
-    (d.stats || []).forEach(s => { sm[s.stat.name] = s.base_stat; });
-    const hp      = sm['hp']              || 0;
-    const attack  = sm['attack']          || 0;
-    const defense = sm['defense']         || 0;
-    const spatk   = sm['special-attack']  || 0;
-    const spdef   = sm['special-defense'] || 0;
-    const speed   = sm['speed']           || 0;
-    return {
-      name: p.name, id: p.id, types: p.types,
-      height: d.height || 0, weight: d.weight || 0,
-      hp, attack, defense, spatk, spdef, speed,
-      total: hp + attack + defense + spatk + spdef + speed,
-    };
-  });
-
-  return dexCache;
+  statsCache = basic.map(p => ({ ...p, ...(statsById[p.id] || {}) }));
+  return statsCache;
 }
+
+// Lightweight stats endpoint for client-side lazy loading
+router.get('/stats', async (req, res) => {
+  try {
+    const full = await warmStats();
+    res.json(full.map(p => ({
+      id: p.id, hp: p.hp, attack: p.attack, defense: p.defense,
+      spatk: p.spatk, spdef: p.spdef, speed: p.speed,
+      total: p.total, height: p.height, weight: p.weight,
+    })));
+  } catch (err) {
+    res.status(500).json({ error: 'stats unavailable' });
+  }
+});
 
 router.get('/', async (req, res) => {
   try {
-    const raw    = parseInt(req.query.gen);
-    const gen    = GENS.find(g => g.num === (isNaN(raw) ? 0 : raw)) || GENS[0];
-    const list   = await getFullDex();
+    const raw     = parseInt(req.query.gen);
+    const gen     = GENS.find(g => g.num === (isNaN(raw) ? 0 : raw)) || GENS[0];
+    const list    = await getBasicDex();           // fast — Phase 1 only
     const pokemon = list.filter(p => p.id >= gen.start && p.id <= gen.end);
     res.render('pokedex/index', { pokemon, genNum: gen.num, gens: GENS });
+    warmStats().catch(() => {});                   // stats load in background
   } catch (err) {
     res.render('pokedex/index', { pokemon: [], genNum: 0, gens: GENS });
   }
 });
 
-getFullDex().catch(() => {});
+getBasicDex().catch(() => {});    // pre-warm Phase 1 on startup
 
 module.exports = router;
