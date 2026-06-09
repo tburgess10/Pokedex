@@ -14,18 +14,18 @@ body {
 }
 
 /* ---- Theme accent (used by entry page nav + accents) ---- */
-body                           { --accent: #CC0000; --accent-fg: #fff; }
-body[data-theme="greatball"]   { --accent: #2668C8; --accent-fg: #fff; }
-body[data-theme="ultraball"]   { --accent: #F5C800; --accent-fg: #111; }
-body[data-theme="masterball"]  { --accent: #7E308E; --accent-fg: #fff; }
-body[data-theme="safariball"]  { --accent: #7B6920; --accent-fg: #fff; }
-body[data-theme="netball"]     { --accent: #1E3A8A; --accent-fg: #fff; }
-body[data-theme="diveball"]    { --accent: #0284C7; --accent-fg: #fff; }
-body[data-theme="healball"]    { --accent: #DB2777; --accent-fg: #fff; }
-body[data-theme="duskball"]    { --accent: #2E4B1C; --accent-fg: #C8E0B0; }
-body[data-theme="luxuryball"]  { --accent: #0F172A; --accent-fg: #fff; }
-body[data-theme="moonball"]    { --accent: #E8C820; --accent-fg: #111; }
-body[data-theme="premierball"] { --accent: #CC0000; --accent-fg: #fff; }
+:root                           { --accent: #CC0000; --accent-fg: #fff; }
+:root[data-theme="greatball"]   { --accent: #2668C8; --accent-fg: #fff; }
+:root[data-theme="ultraball"]   { --accent: #F5C800; --accent-fg: #111; }
+:root[data-theme="masterball"]  { --accent: #7E308E; --accent-fg: #fff; }
+:root[data-theme="safariball"]  { --accent: #7B6920; --accent-fg: #fff; }
+:root[data-theme="netball"]     { --accent: #1E3A8A; --accent-fg: #fff; }
+:root[data-theme="diveball"]    { --accent: #0284C7; --accent-fg: #fff; }
+:root[data-theme="healball"]    { --accent: #DB2777; --accent-fg: #fff; }
+:root[data-theme="duskball"]    { --accent: #2E4B1C; --accent-fg: #C8E0B0; }
+:root[data-theme="luxuryball"]  { --accent: #0F172A; --accent-fg: #fff; }
+:root[data-theme="moonball"]    { --accent: #E8C820; --accent-fg: #111; }
+:root[data-theme="premierball"] { --accent: #CC0000; --accent-fg: #fff; }
 
 /* ---- Generic layout (about, pokemon, etc.) ---- */
 
@@ -86,7 +86,7 @@ footer {
 
 /* ---- Themes ---- */
 
-.pokeball-home[data-theme="greatball"] {
+:root[data-theme="greatball"] .pokeball-home {
   --pb-top:          #2668C8;
   --pb-bottom:       #EFF6FF;
   --pb-caret:        #2668C8;
@@ -94,7 +94,7 @@ footer {
   --pb-card-shadow:  rgba(38,104,200,0.13);
 }
 
-.pokeball-home[data-theme="ultraball"] {
+:root[data-theme="ultraball"] .pokeball-home {
   --pb-top:          #F5C800;
   --pb-bottom:       #0F172A;
   --pb-title-fg:     #111111;
@@ -110,7 +110,7 @@ footer {
   --pb-input-fg:     #111111;
 }
 
-.pokeball-home[data-theme="masterball"] {
+:root[data-theme="masterball"] .pokeball-home {
   --pb-top:          #7E308E;
   --pb-bottom:       #F5F3FF;
   --pb-caret:        #7E308E;
@@ -118,7 +118,7 @@ footer {
   --pb-card-shadow:  rgba(126,48,142,0.13);
 }
 
-.pokeball-home[data-theme="safariball"] {
+:root[data-theme="safariball"] .pokeball-home {
   --pb-top:          #7B6920;
   --pb-bottom:       #D4C080;
   --pb-band-border:  #3B2E00;
@@ -131,7 +131,7 @@ footer {
   --pb-card-desc-fg: #6B5C20;
 }
 
-.pokeball-home[data-theme="netball"] {
+:root[data-theme="netball"] .pokeball-home {
   --pb-top:          #1E3A8A;
   --pb-bottom:       #DBEAFE;
   --pb-band-border:  #1E3A8A;
@@ -140,7 +140,7 @@ footer {
   --pb-card-shadow:  rgba(30,58,138,0.13);
 }
 
-.pokeball-home[data-theme="diveball"] {
+:root[data-theme="diveball"] .pokeball-home {
   --pb-top:          #0284C7;
   --pb-bottom:       #E0F2FE;
   --pb-band-border:  #0369A1;
@@ -149,7 +149,7 @@ footer {
   --pb-card-shadow:  rgba(2,132,199,0.13);
 }
 
-.pokeball-home[data-theme="healball"] {
+:root[data-theme="healball"] .pokeball-home {
   --pb-top:          #DB2777;
   --pb-bottom:       #FDF2F8;
   --pb-band-border:  #9D174D;
@@ -158,7 +158,7 @@ footer {
   --pb-card-shadow:  rgba(219,39,119,0.13);
 }
 
-.pokeball-home[data-theme="duskball"] {
+:root[data-theme="duskball"] .pokeball-home {
   --pb-top:          #2E4B1C;
   --pb-bottom:       #0D1A09;
   --pb-band-bg:      #1A2412;
@@ -177,7 +177,7 @@ footer {
   --pb-card-desc-fg: #7AAA58;
 }
 
-.pokeball-home[data-theme="luxuryball"] {
+:root[data-theme="luxuryball"] .pokeball-home {
   --pb-top:          #0F172A;
   --pb-bottom:       #0F172A;
   --pb-band-bg:      #1E293B;
@@ -196,7 +196,7 @@ footer {
   --pb-card-desc-fg: #94A3B8;
 }
 
-.pokeball-home[data-theme="moonball"] {
+:root[data-theme="moonball"] .pokeball-home {
   --pb-top:          #E8C820;
   --pb-bottom:       #1E3A8A;
   --pb-title-fg:     #111111;
@@ -210,7 +210,7 @@ footer {
   --pb-card-desc-fg: #93C5FD;
 }
 
-.pokeball-home[data-theme="premierball"] {
+:root[data-theme="premierball"] .pokeball-home {
   --pb-top:          #F0F0F0;
   --pb-bottom:       #F0F0F0;
   --pb-band-border:  #CC0000;
@@ -445,7 +445,7 @@ body.pokeball-home {
    ============================================================ */
 
 /* Great Ball: diagonal red stripe across blue top */
-.pokeball-home[data-theme="greatball"] .pb-top::before {
+:root[data-theme="greatball"] .pokeball-home .pb-top::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -461,7 +461,7 @@ body.pokeball-home {
 }
 
 /* Ultra Ball: two black angular wedges at the bottom of the yellow top */
-.pokeball-home[data-theme="ultraball"] .pb-top::before {
+:root[data-theme="ultraball"] .pokeball-home .pb-top::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -470,7 +470,7 @@ body.pokeball-home {
   pointer-events: none;
   z-index: 0;
 }
-.pokeball-home[data-theme="ultraball"] .pb-top::after {
+:root[data-theme="ultraball"] .pokeball-home .pb-top::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -481,7 +481,7 @@ body.pokeball-home {
 }
 
 /* Master Ball: large M watermark + two pink side circles */
-.pokeball-home[data-theme="masterball"] .pb-top::before {
+:root[data-theme="masterball"] .pokeball-home .pb-top::before {
   content: 'M';
   position: absolute;
   font-size: clamp(8rem, 20vw, 15rem);
@@ -496,7 +496,7 @@ body.pokeball-home {
   z-index: 0;
   letter-spacing: -4px;
 }
-.pokeball-home[data-theme="masterball"] .pb-top::after {
+:root[data-theme="masterball"] .pokeball-home .pb-top::after {
   content: '';
   position: absolute;
   width: 68px;
@@ -513,7 +513,7 @@ body.pokeball-home {
 }
 
 /* Safari Ball: crosshatch pattern */
-.pokeball-home[data-theme="safariball"] .pb-top::before {
+:root[data-theme="safariball"] .pokeball-home .pb-top::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -525,8 +525,8 @@ body.pokeball-home {
 }
 
 /* Net Ball: diamond net pattern on both halves */
-.pokeball-home[data-theme="netball"] .pb-top::before,
-.pokeball-home[data-theme="netball"] .pb-bottom::before {
+:root[data-theme="netball"] .pokeball-home .pb-top::before,
+:root[data-theme="netball"] .pokeball-home .pb-bottom::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -538,7 +538,7 @@ body.pokeball-home {
 }
 
 /* Dive Ball: diagonal wave stripes */
-.pokeball-home[data-theme="diveball"] .pb-top::before {
+:root[data-theme="diveball"] .pokeball-home .pb-top::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -554,7 +554,7 @@ body.pokeball-home {
 }
 
 /* Heal Ball: white cross centered on pink top */
-.pokeball-home[data-theme="healball"] .pb-top::before {
+:root[data-theme="healball"] .pokeball-home .pb-top::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -566,8 +566,8 @@ body.pokeball-home {
 }
 
 /* Dusk Ball: diagonal dark stripes on dark olive halves */
-.pokeball-home[data-theme="duskball"] .pb-top::before,
-.pokeball-home[data-theme="duskball"] .pb-bottom::before {
+:root[data-theme="duskball"] .pokeball-home .pb-top::before,
+:root[data-theme="duskball"] .pokeball-home .pb-bottom::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -583,8 +583,8 @@ body.pokeball-home {
 }
 
 /* Luxury Ball: fine red diamond pattern on both halves */
-.pokeball-home[data-theme="luxuryball"] .pb-top::before,
-.pokeball-home[data-theme="luxuryball"] .pb-bottom::before {
+:root[data-theme="luxuryball"] .pokeball-home .pb-top::before,
+:root[data-theme="luxuryball"] .pokeball-home .pb-bottom::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -596,7 +596,7 @@ body.pokeball-home {
 }
 
 /* Moon Ball: glowing moon circle + crescent bite */
-.pokeball-home[data-theme="moonball"] .pb-top::before {
+:root[data-theme="moonball"] .pokeball-home .pb-top::before {
   content: '';
   position: absolute;
   width: 130px;
@@ -611,7 +611,7 @@ body.pokeball-home {
   z-index: 0;
 }
 /* Offset circle in the background color creates the crescent illusion */
-.pokeball-home[data-theme="moonball"] .pb-top::after {
+:root[data-theme="moonball"] .pokeball-home .pb-top::after {
   content: '';
   position: absolute;
   width: 112px;
@@ -1111,6 +1111,12 @@ body.entry-page .pb-suggestion.is-active {
   font-weight: 700;
   font-size: 0.95rem;
   color: #222;
+  text-decoration: none;
+}
+
+.ability-card__name:hover {
+  color: var(--accent);
+  text-decoration: underline;
 }
 
 .ability-card__badge {
@@ -1420,6 +1426,136 @@ body.entry-page .pb-suggestion.is-active {
   .pb-nav        { flex-wrap: wrap; justify-content: center; }
   .pb-nav__card  { min-width: 130px; padding: 0.9rem 1.2rem; }
   .pb-bottom     { gap: 1rem; padding: 1rem; }
+}
+
+/* ===================== Ability page ===================== */
+
+body.ability-page {
+  background: #f0f0f0;
+  min-height: 100vh;
+}
+
+body.ability-page nav {
+  background: var(--accent);
+}
+
+body.ability-page nav a {
+  color: var(--accent-fg);
+}
+
+.ability-main {
+  max-width: 1060px;
+  margin: 2rem auto;
+  padding: 0 1.5rem 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.ability-hero-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 2rem 2.5rem;
+  box-shadow: 0 2px 18px rgba(0,0,0,0.07);
+}
+
+.ability-hero-header {
+  margin-bottom: 1.5rem;
+}
+
+.ability-gen-badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  border: 1.5px solid var(--accent);
+  border-radius: 20px;
+  padding: 0.15rem 0.65rem;
+  margin-bottom: 0.6rem;
+}
+
+.ability-display-name {
+  font-size: 2.4rem;
+  font-weight: 900;
+  color: #111;
+  line-height: 1.1;
+  margin: 0 0 0.5rem;
+}
+
+.ability-short-effect {
+  font-size: 1rem;
+  color: #555;
+  font-style: italic;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.ability-effect-body {
+  border-top: 1px solid #eee;
+  padding-top: 1.25rem;
+}
+
+.ability-effect-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #bbb;
+  margin: 0 0 0.55rem;
+}
+
+.ability-effect-text {
+  font-size: 0.95rem;
+  color: #333;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.ability-pokemon-section {
+  background: #fff;
+  border-radius: 20px;
+  padding: 2rem 2.5rem;
+  box-shadow: 0 2px 18px rgba(0,0,0,0.07);
+}
+
+.ability-section-heading {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #bbb;
+  margin: 0 0 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ability-pokemon-count {
+  background: #f0f0f0;
+  color: #999;
+  font-size: 0.68rem;
+  padding: 0.1rem 0.5rem;
+  border-radius: 20px;
+}
+
+.ability-hidden-tag {
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #aaa;
+  border: 1.5px dashed #ccc;
+  border-radius: 20px;
+  padding: 0.1rem 0.4rem;
+}
+
+@media (max-width: 720px) {
+  .ability-main        { padding: 0 1rem 2rem; margin: 1rem auto; }
+  .ability-hero-card,
+  .ability-pokemon-section { padding: 1.5rem; }
+  .ability-display-name { font-size: 1.8rem; }
 }
 
 /* ===================== Pokédex browser ===================== */

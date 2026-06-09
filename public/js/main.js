@@ -4,7 +4,7 @@
 
   const STORAGE_KEY = 'burgedex-theme';
   const savedTheme  = localStorage.getItem(STORAGE_KEY) || 'pokeball';
-  document.body.dataset.theme = savedTheme;
+  document.documentElement.dataset.theme = savedTheme;
 
   /* ---- Theme switcher (home page only) ---- */
 
@@ -12,7 +12,7 @@
 
   if (body) {
     function applyTheme(theme) {
-      body.dataset.theme = theme;
+      document.documentElement.dataset.theme = theme;
       document.querySelectorAll('.theme-dot').forEach(function (btn) {
         btn.classList.toggle('active', btn.dataset.theme === theme);
       });
@@ -162,7 +162,7 @@
       const desc = a.shortEffect ? '<p class="ability-card__desc">' + a.shortEffect + '</p>' : '';
       return '<div class="ability-card' + (a.isHidden ? ' ability-card--hidden' : '') + '">' +
         '<div class="ability-card__header">' +
-          '<span class="ability-card__name">' + displayName + '</span>' +
+          '<a class="ability-card__name" href="/abilities/' + a.name + '">' + displayName + '</a>' +
           hiddenBadge +
         '</div>' +
         desc +

@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title><%= pokemon.capName %> — Burgédex</title>
+  <script>try{var t=localStorage.getItem('burgedex-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
   <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body class="entry-page">
@@ -172,9 +173,9 @@
             <% pokemon.abilityDetails.forEach(a => { %>
               <div class="ability-card <%= a.isHidden ? 'ability-card--hidden' : '' %>">
                 <div class="ability-card__header">
-                  <span class="ability-card__name">
+                  <a class="ability-card__name" href="/abilities/<%= a.name %>">
                     <%= a.name.split('-').map(w => w[0].toUpperCase() + w.slice(1)).join(' ') %>
-                  </span>
+                  </a>
                   <% if (a.isHidden) { %>
                     <span class="ability-card__badge">Hidden</span>
                   <% } %>

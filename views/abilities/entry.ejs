@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= ability.displayName %> — Burgédex</title>
+  <script>try{var t=localStorage.getItem('burgedex-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body class="ability-page">
+  <nav class="entry-nav">
+    <div class="entry-nav__links">
+      <a href="/">← Home</a>
+      <a href="/pokedex">Pokédex</a>
+      <a href="/about">About</a>
+    </div>
+    <span class="entry-nav__brand">Burgédex</span>
+    <div class="entry-nav__search">
+      <form action="/pokemon" method="GET">
+        <input
+          id="pb-search-input"
+          class="nav-search-input"
+          type="text"
+          name="q"
+          placeholder="Search Pokémon..."
+          autocomplete="off"
+        />
+      </form>
+      <ul class="pb-suggestions" id="pb-suggestions" hidden></ul>
+    </div>
+  </nav>
+
+  <main class="ability-main">
+
+    <div class="ability-hero-card">
+      <div class="ability-hero-header">
+        <div>
+          <span class="ability-gen-badge"><%= ability.generation %></span>
+          <h1 class="ability-display-name"><%= ability.displayName %></h1>
+          <% if (ability.shortEffect) { %>
+            <p class="ability-short-effect"><%= ability.shortEffect %></p>
+          <% } %>
+        </div>
+      </div>
+      <% if (ability.effect) { %>
+      <div class="ability-effect-body">
+        <h2 class="ability-effect-title">Effect</h2>
+        <p class="ability-effect-text"><%= ability.effect %></p>
+      </div>
+      <% } %>
+    </div>
+
+    <% if (ability.pokemon.length > 0) { %>
+    <section class="ability-pokemon-section">
+      <h2 class="ability-section-heading">
+        Pokémon with <%= ability.displayName %>
+        <span class="ability-pokemon-count"><%= ability.pokemon.length %></span>
+      </h2>
+      <div class="dex-grid">
+        <% ability.pokemon.forEach(p => { %>
+          <a class="dex-card" href="/pokemon/<%= p.name %>">
+            <img class="dex-sprite" src="<%= p.sprite %>" alt="<%= p.displayName %>" />
+            <span class="dex-number">#<%= String(p.id).padStart(4, '0') %></span>
+            <span class="dex-name"><%= p.displayName %></span>
+            <% if (p.isHidden) { %>
+              <span class="ability-hidden-tag">Hidden</span>
+            <% } %>
+          </a>
+        <% }); %>
+      </div>
+    </section>
+    <% } %>
+
+  </main>
+
+  <footer>
+    <p>&copy; <%= new Date().getFullYear() %> Burgédex</p>
+  </footer>
+  <script src="/js/main.js"></script>
+</body>
+</html>

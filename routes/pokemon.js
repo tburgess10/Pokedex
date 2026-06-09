@@ -70,6 +70,13 @@ router.get('/:id', async (req, res) => {
     try {
         const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${req.params.id}`);
         if (!response.ok) {
+            // Species-name fallback: "pumpkaboo" → redirect to "pumpkaboo-average"
+            const speciesRes = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${req.params.id}`);
+            if (speciesRes.ok) {
+                const speciesData = await speciesRes.json();
+                const defaultVariety = speciesData.varieties.find(v => v.is_default);
+                if (defaultVariety) return res.redirect(`/pokemon/${defaultVariety.pokemon.name}`);
+            }
             return res.render('pokemon/not-found', { query: req.params.id });
         }
         const pokedata = await response.json();
