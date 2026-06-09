@@ -240,6 +240,45 @@
     });
   }
 
+  /* ---- Moves tab switcher + search (entry page only) ---- */
+
+  const movesTabs   = document.querySelector('.moves-tabs');
+  const movesSearch = document.getElementById('moves-search');
+
+  function filterMoveRows(q) {
+    const panel = document.querySelector('.moves-panel:not(.moves-panel--hidden)');
+    if (!panel) return;
+    panel.querySelectorAll('.moves-row').forEach(function (row) {
+      const name = row.querySelector('.moves-td--name');
+      row.style.display = (!q || (name && name.textContent.trim().toLowerCase().includes(q))) ? '' : 'none';
+    });
+  }
+
+  if (movesTabs) {
+    movesTabs.addEventListener('click', function (e) {
+      const btn = e.target.closest('.moves-tab-btn');
+      if (!btn) return;
+      const method = btn.dataset.method;
+
+      movesTabs.querySelectorAll('.moves-tab-btn').forEach(function (b) {
+        b.classList.toggle('moves-tab-btn--active', b === btn);
+      });
+      document.querySelectorAll('.moves-panel').forEach(function (panel) {
+        panel.classList.toggle('moves-panel--hidden', panel.dataset.method !== method);
+        // Reset hidden rows when switching tabs
+        panel.querySelectorAll('.moves-row').forEach(function (r) { r.style.display = ''; });
+      });
+
+      if (movesSearch) movesSearch.value = '';
+    });
+  }
+
+  if (movesSearch) {
+    movesSearch.addEventListener('input', function () {
+      filterMoveRows(this.value.trim().toLowerCase());
+    });
+  }
+
   /* ---- Keyboard prev/next (entry page only) ---- */
 
   document.addEventListener('keydown', function (e) {

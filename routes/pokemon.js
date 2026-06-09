@@ -35,6 +35,73 @@ function computeTypeEffectiveness(defenderTypes) {
     return result;
 }
 
+const VERSION_GROUP_ORDER = [
+    'scarlet-violet', 'legends-arceus', 'brilliant-diamond-and-shining-pearl',
+    'sword-shield', 'lets-go-pikachu-eevee', 'ultra-sun-ultra-moon',
+    'sun-moon', 'omega-ruby-alpha-sapphire', 'x-y', 'black-2-white-2',
+    'black-white', 'heartgold-soulsilver', 'platinum', 'diamond-pearl',
+    'firered-leafgreen', 'emerald', 'ruby-sapphire', 'crystal',
+    'gold-silver', 'yellow', 'red-blue',
+];
+
+async function fetchVersionGroupMoves(rawMoves) {
+    try {
+        const vgSet = new Set(
+            rawMoves.flatMap(m => m.version_group_details.map(d => d.version_group.name))
+        );
+        const bestVG = VERSION_GROUP_ORDER.find(vg => vgSet.has(vg));
+        if (!bestVG) return { versionGroup: '', table: {} };
+
+        const vgMoves = rawMoves
+            .map(m => {
+                const detail = m.version_group_details.find(d => d.version_group.name === bestVG);
+                if (!detail) return null;
+                return {
+                    name:   m.move.name,
+                    url:    m.move.url,
+                    method: detail.move_learn_method.name,
+                    level:  detail.level_learned_at,
+                };
+            })
+            .filter(Boolean);
+
+        const moveDetails = await Promise.all(
+            vgMoves.map(async (m) => {
+                try {
+                    const res = await fetch(m.url);
+                    if (!res.ok) return null;
+                    const data = await res.json();
+                    return {
+                        name:        m.name,
+                        displayName: m.name.split('-').map(w => w[0].toUpperCase() + w.slice(1)).join(' '),
+                        method:      m.method,
+                        level:       m.level,
+                        type:        data.type?.name        || null,
+                        power:       data.power,
+                        accuracy:    data.accuracy,
+                        pp:          data.pp,
+                        damageClass: data.damage_class?.name || null,
+                    };
+                } catch (_) { return null; }
+            })
+        );
+
+        const table = {};
+        for (const method of ['level-up', 'machine', 'egg', 'tutor']) {
+            const moves = moveDetails.filter(m => m?.method === method);
+            if (!moves.length) continue;
+            if (method === 'level-up') moves.sort((a, b) => a.level - b.level);
+            else moves.sort((a, b) => a.displayName.localeCompare(b.displayName));
+            table[method] = moves;
+        }
+
+        const vgLabel = bestVG.split('-').map(w => w[0].toUpperCase() + w.slice(1)).join(' ');
+        return { versionGroup: vgLabel, table };
+    } catch (_) {
+        return { versionGroup: '', table: {} };
+    }
+}
+
 // Cached list of all Pokémon names, fetched once from PokéAPI
 let pokemonList = null;
 
@@ -121,9 +188,9 @@ router.get('/:id', async (req, res) => {
                     pokedata.flavorGame = '';
                 }
 
-                // Fetch forms + evolution chain in parallel
+                // Fetch forms + evolution chain + moves in parallel
                 const otherVarieties = speciesData.varieties.filter(v => v.pokemon.name !== pokedata.name);
-                const [formResults, evoChainRes] = await Promise.all([
+                const [formResults, evoChainRes, movesResult] = await Promise.all([
                     Promise.all(
                         otherVarieties.map(async (v) => {
                             try {
@@ -167,9 +234,12 @@ router.get('/:id', async (req, res) => {
                         })
                     ),
                     fetch(speciesData.evolution_chain.url),
+                    fetchVersionGroupMoves(pokedata.moves),
                 ]);
 
-                pokedata.forms = formResults.filter(f => f !== null);
+                pokedata.forms             = formResults.filter(f => f !== null);
+                pokedata.movesTable        = movesResult.table;
+                pokedata.movesVersionGroup = movesResult.versionGroup;
 
                 // Parse evolution chain into stages array
                 if (evoChainRes.ok) {
@@ -203,18 +273,22 @@ router.get('/:id', async (req, res) => {
                     pokedata.evolutionStages = [];
                 }
             } else {
-                pokedata.speciesId      = pokedata.id;
-                pokedata.flavorText     = '';
-                pokedata.flavorGame     = '';
-                pokedata.forms          = [];
-                pokedata.evolutionStages = [];
+                pokedata.speciesId         = pokedata.id;
+                pokedata.flavorText        = '';
+                pokedata.flavorGame        = '';
+                pokedata.forms             = [];
+                pokedata.evolutionStages   = [];
+                pokedata.movesTable        = {};
+                pokedata.movesVersionGroup = '';
             }
         } catch (err) {
-            pokedata.speciesId      = pokedata.id;
-            pokedata.flavorText     = '';
-            pokedata.flavorGame     = '';
-            pokedata.forms          = [];
-            pokedata.evolutionStages = [];
+            pokedata.speciesId         = pokedata.id;
+            pokedata.flavorText        = '';
+            pokedata.flavorGame        = '';
+            pokedata.forms             = [];
+            pokedata.evolutionStages   = [];
+            pokedata.movesTable        = {};
+            pokedata.movesVersionGroup = '';
         }
 
         const sid = pokedata.speciesId || pokedata.id;
