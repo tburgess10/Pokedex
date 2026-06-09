@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Type Not Found — Burgédex</title>
+  <title>Moves — Burgédex</title>
   <script>try{var t=localStorage.getItem('burgedex-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
   <link rel="stylesheet" href="/css/style.css" />
 </head>
-<body class="type-page">
+<body class="entry-page">
   <nav class="entry-nav">
     <div class="entry-nav__links">
       <a href="/">← Home</a>
       <a href="/pokedex">Pokédex</a>
-      <a href="/moves">Moves</a>
+      <a href="/types">Types</a>
       <a href="/about">About</a>
     </div>
     <span class="entry-nav__brand">Burgédex</span>
@@ -30,11 +30,28 @@
       <ul class="pb-suggestions" id="pb-suggestions" hidden></ul>
     </div>
   </nav>
-  <main>
-    <h1>Type not found</h1>
-    <p>No type named "<%= query %>" exists.</p>
-    <p><a href="/">← Back to home</a></p>
+
+  <main class="dex-main">
+    <div class="dex-header">
+      <h1 class="dex-title">Moves</h1>
+      <input
+        id="moves-index-filter"
+        class="dex-filter"
+        type="text"
+        placeholder="Filter by name…"
+        autocomplete="off"
+      />
+    </div>
+    <div class="moves-index-grid" id="moves-index-grid">
+      <% moves.forEach(m => { %>
+        <a class="moves-index-card" href="/moves/<%= m.name %>" data-name="<%= m.name %>">
+          <%= m.displayName %>
+        </a>
+      <% }); %>
+    </div>
+    <p class="dex-empty" id="moves-index-empty" hidden>No moves match that name.</p>
   </main>
+
   <script src="/js/main.js"></script>
 </body>
 </html>

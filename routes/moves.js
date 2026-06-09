@@ -10,6 +10,19 @@ async function getMoveList() {
     return moveList;
 }
 
+router.get('/', async (req, res) => {
+    try {
+        const cap  = w => w.charAt(0).toUpperCase() + w.slice(1);
+        const list = await getMoveList();
+        const moves = list
+            .map(name => ({ name, displayName: name.split('-').map(cap).join(' ') }))
+            .sort((a, b) => a.displayName.localeCompare(b.displayName));
+        res.render('moves/index', { moves });
+    } catch (_) {
+        res.render('moves/index', { moves: [] });
+    }
+});
+
 router.get('/search', async (req, res) => {
     const q = (req.query.q || '').trim().toLowerCase().replace(/ /g, '-');
     if (q.length < 2) return res.json([]);

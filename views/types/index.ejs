@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Type Not Found — Burgédex</title>
+  <title>Types — Burgédex</title>
   <script>try{var t=localStorage.getItem('burgedex-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
   <link rel="stylesheet" href="/css/style.css" />
 </head>
-<body class="type-page">
+<body class="entry-page">
   <nav class="entry-nav">
     <div class="entry-nav__links">
       <a href="/">← Home</a>
@@ -30,11 +30,20 @@
       <ul class="pb-suggestions" id="pb-suggestions" hidden></ul>
     </div>
   </nav>
-  <main>
-    <h1>Type not found</h1>
-    <p>No type named "<%= query %>" exists.</p>
-    <p><a href="/">← Back to home</a></p>
+
+  <main class="dex-main">
+    <div class="dex-header">
+      <h1 class="dex-title">Types</h1>
+    </div>
+    <div class="types-index-grid">
+      <% types.forEach(type => { %>
+        <a class="types-index-card type-<%= type %>" href="/types/<%= type %>">
+          <%= type %>
+        </a>
+      <% }); %>
+    </div>
   </main>
+
   <script src="/js/main.js"></script>
 </body>
 </html>

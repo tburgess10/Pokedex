@@ -1,6 +1,16 @@
 const express = require('express');
 const router = express.Router();
 
+const ALL_TYPES = [
+    'normal','fire','water','electric','grass','ice','fighting',
+    'poison','ground','flying','psychic','bug','rock','ghost',
+    'dragon','dark','steel','fairy',
+];
+
+router.get('/', (req, res) => {
+    res.render('types/index', { types: ALL_TYPES });
+});
+
 router.get('/:name', async (req, res) => {
     try {
         const typeRes = await fetch(`https://pokeapi.co/api/v2/type/${req.params.name.toLowerCase()}`);
