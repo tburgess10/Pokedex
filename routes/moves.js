@@ -1,6 +1,27 @@
 const express = require('express');
 const router = express.Router();
 
+let moveList = null;
+async function getMoveList() {
+    if (moveList) return moveList;
+    const res = await fetch('https://pokeapi.co/api/v2/move?limit=1000');
+    const data = await res.json();
+    moveList = data.results.map(m => m.name);
+    return moveList;
+}
+
+router.get('/search', async (req, res) => {
+    const q = (req.query.q || '').trim().toLowerCase().replace(/ /g, '-');
+    if (q.length < 2) return res.json([]);
+    try {
+        const list = await getMoveList();
+        const matches = list.filter(name => name.startsWith(q)).slice(0, 8);
+        res.json(matches);
+    } catch (_) {
+        res.json([]);
+    }
+});
+
 router.get('/:name', async (req, res) => {
     try {
         const moveRes = await fetch(`https://pokeapi.co/api/v2/move/${req.params.name.toLowerCase()}`);

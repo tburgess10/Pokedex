@@ -413,19 +413,37 @@
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
 
+  function displayName(name) {
+    return name.split('-').map(cap).join(' ');
+  }
+
   function hide() {
     suggestions.hidden = true;
     suggestions.innerHTML = '';
     activeIndex = -1;
   }
 
-  function render(names) {
-    if (!names.length) { hide(); return; }
-    suggestions.innerHTML = names
-      .map((name, i) => `<li class="pb-suggestion" data-name="${name}" data-index="${i}">${cap(name)}</li>`)
-      .join('');
+  function render(pokeNames, moveNames) {
+    if (!pokeNames.length && !moveNames.length) { hide(); return; }
+    var html = pokeNames.map(function (name, i) {
+      return '<li class="pb-suggestion" data-name="' + name + '" data-type="pokemon" data-index="' + i + '">' +
+        displayName(name) + '</li>';
+    });
+    moveNames.forEach(function (name, i) {
+      html.push('<li class="pb-suggestion" data-name="' + name + '" data-type="move" data-index="' + (pokeNames.length + i) + '">' +
+        displayName(name) + '<span class="pb-tag pb-tag--move">Move</span></li>');
+    });
+    suggestions.innerHTML = html.join('');
     suggestions.hidden = false;
     activeIndex = -1;
+  }
+
+  function navigate(item) {
+    if (!item) return;
+    var url = item.dataset.type === 'move'
+      ? '/moves/'   + item.dataset.name
+      : '/pokemon/' + item.dataset.name;
+    window.location.href = url;
   }
 
   function highlight(index) {
@@ -442,9 +460,13 @@
 
     debounceTimer = setTimeout(async function () {
       try {
-        const res   = await fetch('/pokemon/search?q=' + encodeURIComponent(q));
-        const names = await res.json();
-        render(names);
+        const [pokeRes, moveRes] = await Promise.all([
+          fetch('/pokemon/search?q=' + encodeURIComponent(q)),
+          fetch('/moves/search?q='   + encodeURIComponent(q)),
+        ]);
+        const pokeNames = pokeRes.ok ? await pokeRes.json() : [];
+        const moveNames = moveRes.ok ? await moveRes.json() : [];
+        render(pokeNames.slice(0, 5), moveNames.slice(0, 4));
       } catch (_) {
         hide();
       }
@@ -466,7 +488,7 @@
       else { highlight(next); }
     } else if (e.key === 'Enter' && activeIndex >= 0) {
       e.preventDefault();
-      window.location.href = '/pokemon/' + items[activeIndex].dataset.name;
+      navigate(items[activeIndex]);
     } else if (e.key === 'Escape') {
       hide();
     }
@@ -474,8 +496,7 @@
 
   // Click a suggestion
   suggestions.addEventListener('click', function (e) {
-    const item = e.target.closest('.pb-suggestion');
-    if (item) window.location.href = '/pokemon/' + item.dataset.name;
+    navigate(e.target.closest('.pb-suggestion'));
   });
 
   // Click outside → close

@@ -428,6 +428,31 @@ body.pokeball-home {
   font-size: 1rem;
   color: var(--pb-input-fg);
   transition: background-color 0.1s, color 0.1s;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.pb-tag {
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.15rem 0.45rem;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+.pb-tag--move {
+  background: rgba(104, 144, 240, 0.18);
+  color: #3a5fc8;
+}
+
+.pb-suggestion:hover .pb-tag,
+.pb-suggestion.is-active .pb-tag {
+  background: rgba(255, 255, 255, 0.22);
+  color: #fff;
 }
 
 .pb-suggestion + .pb-suggestion {
