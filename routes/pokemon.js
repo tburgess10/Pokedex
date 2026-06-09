@@ -96,10 +96,11 @@ router.get('/:id', async (req, res) => {
 
         // Fetch species data (flavor text, forms, evolution chain)
         try {
-            const speciesRes = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokedata.id}`);
+            const speciesRes = await fetch(pokedata.species.url);
             if (speciesRes.ok) {
                 const speciesData = await speciesRes.json();
-                pokedata.speciesId = speciesData.id;
+                pokedata.speciesId   = speciesData.id;
+                pokedata.speciesName = speciesData.name;
 
                 // Flavor text — latest English entry
                 const enEntries = speciesData.flavor_text_entries.filter(e => e.language.name === 'en');
@@ -114,7 +115,7 @@ router.get('/:id', async (req, res) => {
                 }
 
                 // Fetch forms + evolution chain in parallel
-                const otherVarieties = speciesData.varieties.filter(v => !v.is_default);
+                const otherVarieties = speciesData.varieties.filter(v => v.pokemon.name !== pokedata.name);
                 const [formResults, evoChainRes] = await Promise.all([
                     Promise.all(
                         otherVarieties.map(async (v) => {

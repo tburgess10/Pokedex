@@ -212,11 +212,18 @@
       </div>
     </div>
     <% if (pokemon.forms && pokemon.forms.length > 0) { %>
+    <%
+      const speciesBase     = pokemon.speciesName || pokemon.name;
+      const isDefaultForm   = pokemon.name === speciesBase;
+      const currentFormLabel = isDefaultForm
+        ? 'Base'
+        : pokemon.name.slice(speciesBase.length + 1).split('-').map(w => w[0].toUpperCase() + w.slice(1)).join(' ');
+    %>
     <div class="entry-forms">
       <h2 class="entry-forms-title">Other Forms</h2>
       <div class="forms-grid" id="forms-grid">
 
-        <!-- Base form — active by default -->
+        <!-- Current form — active by default -->
         <div class="form-card form-card--active"
              data-artwork="<%= pokemon.sprites.other['official-artwork'].front_default %>"
              data-artwork-shiny="<%= shinyArtwork || '' %>"
@@ -228,11 +235,12 @@
              data-abilities='<%= JSON.stringify(pokemon.abilityDetails) %>'
              data-height="<%= pokemon.height %>"
              data-weight="<%= pokemon.weight %>"
-             data-base-exp="<%= pokemon.base_experience %>">
+             data-base-exp="<%= pokemon.base_experience %>"
+             data-display-name="<%= pokemon.name.split('-').map(w => w[0].toUpperCase() + w.slice(1)).join(' ') %>">
           <img class="form-artwork"
                src="<%= pokemon.sprites.other['official-artwork'].front_default %>"
                alt="Base" />
-          <span class="form-name">Base</span>
+          <span class="form-name"><%= currentFormLabel %></span>
           <div class="form-types">
             <% pokemon.types.forEach(t => { %>
               <span class="type-badge type-<%= t.type.name %>"><%= t.type.name %></span>
@@ -242,9 +250,9 @@
 
         <% pokemon.forms.forEach(f => { %>
           <%
-            const rawLabel = f.name.startsWith(pokemon.name + '-')
-              ? f.name.slice(pokemon.name.length + 1)
-              : f.name;
+            const rawLabel = f.name.startsWith(speciesBase + '-')
+              ? f.name.slice(speciesBase.length + 1)
+              : f.name === speciesBase ? 'Base' : f.name;
             const formLabel = rawLabel.split('-').map(w => w[0].toUpperCase() + w.slice(1)).join(' ');
             const typeStr   = f.types.map(t => t.type.name).join(',');
           %>
@@ -259,7 +267,8 @@
                data-abilities='<%= JSON.stringify(f.abilityDetails) %>'
                data-height="<%= f.height %>"
                data-weight="<%= f.weight %>"
-               data-base-exp="<%= f.baseExperience %>">
+               data-base-exp="<%= f.baseExperience %>"
+               data-display-name="<%= f.name.split('-').map(w => w[0].toUpperCase() + w.slice(1)).join(' ') %>">
             <% if (f.artwork) { %>
               <img class="form-artwork" src="<%= f.artwork %>" alt="<%= formLabel %>" />
             <% } %>

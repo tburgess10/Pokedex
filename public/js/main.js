@@ -174,7 +174,8 @@
 
   const formsGrid = document.getElementById('forms-grid');
   if (formsGrid) {
-    const typesEl = document.querySelector('.entry-types');
+    const typesEl  = document.querySelector('.entry-types');
+    const entryNameEl = document.querySelector('.entry-name');
 
     formsGrid.addEventListener('click', function (e) {
       const card = e.target.closest('.form-card');
@@ -204,6 +205,11 @@
         entrySprite.dataset.normal = newSprite;
         entrySprite.dataset.shiny  = newSpriteShiny;
         entrySprite.src = isShiny && newSpriteShiny ? newSpriteShiny : newSprite;
+      }
+
+      // Update header name
+      if (entryNameEl && card.dataset.displayName) {
+        entryNameEl.textContent = card.dataset.displayName;
       }
 
       // Swap type badges
