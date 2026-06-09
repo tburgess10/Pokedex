@@ -323,8 +323,14 @@
     <div class="entry-moves">
       <div class="entry-moves__header">
         <h2 class="entry-forms-title">Moves</h2>
-        <% if (pokemon.movesVersionGroup) { %>
-          <span class="moves-vg-badge"><%= pokemon.movesVersionGroup %></span>
+        <% if (pokemon.availableVersionGroups && pokemon.availableVersionGroups.length > 0) { %>
+          <select id="moves-vg-select" class="moves-vg-select" data-pokemon="<%= pokemon.name %>">
+            <% pokemon.availableVersionGroups.forEach(function(vg) { %>
+              <option value="<%= vg.id %>" <%= vg.id === pokemon.movesVersionGroupId ? 'selected' : '' %>>
+                <%= vg.label %>
+              </option>
+            <% }); %>
+          </select>
         <% } %>
       </div>
 

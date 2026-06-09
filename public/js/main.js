@@ -242,6 +242,94 @@
 
   /* ---- Moves tab switcher + search (entry page only) ---- */
 
+  const METHOD_LABELS = { 'level-up': 'Level Up', 'machine': 'TM', 'egg': 'Egg', 'tutor': 'Tutor' };
+
+  function renderMovesSection(table) {
+    const movesEl = document.querySelector('.entry-moves');
+    if (!movesEl) return;
+
+    const tabsEl  = movesEl.querySelector('.moves-tabs');
+    const tabsRow = movesEl.querySelector('.moves-tabs-row');
+    const searchEl = movesEl.querySelector('.moves-search');
+    const methods = Object.keys(table || {});
+
+    // Remove existing panels
+    movesEl.querySelectorAll('.moves-panel').forEach(function (p) { p.remove(); });
+
+    if (searchEl) searchEl.value = '';
+
+    if (!methods.length) {
+      if (tabsEl) tabsEl.innerHTML = '<span style="font-size:.85rem;opacity:.6">No move data for this game.</span>';
+      return;
+    }
+
+    // Rebuild tabs
+    if (tabsEl) {
+      tabsEl.innerHTML = methods.map(function (method, i) {
+        return '<button class="moves-tab-btn' + (i === 0 ? ' moves-tab-btn--active' : '') +
+               '" data-method="' + method + '">' + (METHOD_LABELS[method] || method) + '</button>';
+      }).join('');
+    }
+
+    // Build and insert panels
+    var frag = document.createDocumentFragment();
+    methods.forEach(function (method, i) {
+      var hasLv = method === 'level-up';
+      var rows  = (table[method] || []).map(function (m) {
+        var lvCell  = hasLv ? '<td class="moves-td moves-td--lv">' + (m.level || '—') + '</td>' : '';
+        var typeBadge = m.type ? '<span class="type-badge type-' + m.type + '">' + m.type + '</span>' : '—';
+        var catLabel  = m.damageClass === 'physical' ? 'Phys' : m.damageClass === 'special' ? 'Spec' : m.damageClass === 'status' ? 'Stat' : null;
+        var catBadge  = catLabel ? '<span class="move-cat move-cat--' + m.damageClass + '">' + catLabel + '</span>' : '—';
+        var pwr = (m.power    !== null && m.power    !== undefined) ? m.power    : '—';
+        var acc = (m.accuracy !== null && m.accuracy !== undefined) ? m.accuracy : '—';
+        var pp  = (m.pp       !== null && m.pp       !== undefined) ? m.pp       : '—';
+        return '<tr class="moves-row">' +
+          lvCell +
+          '<td class="moves-td moves-td--name">' + m.displayName + '</td>' +
+          '<td class="moves-td">' + typeBadge + '</td>' +
+          '<td class="moves-td">' + catBadge + '</td>' +
+          '<td class="moves-td moves-td--num">' + pwr + '</td>' +
+          '<td class="moves-td moves-td--num">' + acc + '</td>' +
+          '<td class="moves-td moves-td--num">' + pp  + '</td>' +
+        '</tr>';
+      }).join('');
+
+      var lvHead = hasLv ? '<th class="moves-th moves-th--lv">Lv</th>' : '';
+      var panel  = document.createElement('div');
+      panel.className  = 'moves-panel' + (i > 0 ? ' moves-panel--hidden' : '');
+      panel.dataset.method = method;
+      panel.innerHTML =
+        '<div class="moves-table-wrap"><table class="moves-table">' +
+        '<thead><tr>' + lvHead +
+        '<th class="moves-th moves-th--name">Move</th>' +
+        '<th class="moves-th">Type</th><th class="moves-th">Cat</th>' +
+        '<th class="moves-th moves-th--num">Pwr</th>' +
+        '<th class="moves-th moves-th--num">Acc</th>' +
+        '<th class="moves-th moves-th--num">PP</th>' +
+        '</tr></thead><tbody>' + rows + '</tbody></table></div>';
+      frag.appendChild(panel);
+    });
+    tabsRow.after(frag);
+  }
+
+  /* ---- Version group selector ---- */
+
+  var movesVgSelect = document.getElementById('moves-vg-select');
+  if (movesVgSelect) {
+    movesVgSelect.addEventListener('change', async function () {
+      var pokemonName = this.dataset.pokemon;
+      var vg = this.value;
+      this.disabled = true;
+      try {
+        var res  = await fetch('/pokemon/' + encodeURIComponent(pokemonName) + '/moves?vg=' + encodeURIComponent(vg));
+        if (!res.ok) throw new Error();
+        var data = await res.json();
+        renderMovesSection(data.table);
+      } catch (_) { /* keep existing */ }
+      this.disabled = false;
+    });
+  }
+
   const movesTabs   = document.querySelector('.moves-tabs');
   const movesSearch = document.getElementById('moves-search');
 
