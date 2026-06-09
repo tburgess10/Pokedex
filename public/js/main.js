@@ -128,6 +128,25 @@
       .join('');
   }
 
+  /* ---- Ability renderer ---- */
+
+  function renderAbilities(abilities) {
+    const container = document.getElementById('ability-cards');
+    if (!container || !Array.isArray(abilities)) return;
+    container.innerHTML = abilities.map(function (a) {
+      const displayName = a.name.split('-').map(function (w) { return w[0].toUpperCase() + w.slice(1); }).join(' ');
+      const hiddenBadge = a.isHidden ? '<span class="ability-card__badge">Hidden</span>' : '';
+      const desc = a.shortEffect ? '<p class="ability-card__desc">' + a.shortEffect + '</p>' : '';
+      return '<div class="ability-card' + (a.isHidden ? ' ability-card--hidden' : '') + '">' +
+        '<div class="ability-card__header">' +
+          '<span class="ability-card__name">' + displayName + '</span>' +
+          hiddenBadge +
+        '</div>' +
+        desc +
+      '</div>';
+    }).join('');
+  }
+
   /* ---- Form switcher (entry page only) ---- */
 
   const formsGrid = document.getElementById('forms-grid');
@@ -177,6 +196,9 @@
 
       // Update stats
       try { renderStats(JSON.parse(card.dataset.stats || '[]')); } catch (_) {}
+
+      // Update abilities
+      try { renderAbilities(JSON.parse(card.dataset.abilities || '[]')); } catch (_) {}
 
       // Update physical values
       const h = card.dataset.height, w = card.dataset.weight, xp = card.dataset.baseExp;

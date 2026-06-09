@@ -1,6 +1,12 @@
 const express = require('express');
 const router = express.Router();
 
+const ALL_TYPES = [
+  'normal','fire','water','electric','grass','ice','fighting',
+  'poison','ground','flying','psychic','bug','rock','ghost',
+  'dragon','dark','steel','fairy'
+];
+
 const GENS = [
   { num: 1, start: 1,   end: 151,  label: 'Gen I'    },
   { num: 2, start: 152, end: 251,  label: 'Gen II'   },
@@ -17,12 +23,29 @@ let dexCache = null;
 
 async function getFullDex() {
   if (dexCache) return dexCache;
-  const res  = await fetch('https://pokeapi.co/api/v2/pokemon?limit=10000');
-  const data = await res.json();
-  dexCache = data.results
+
+  const responses = await Promise.all([
+    fetch('https://pokeapi.co/api/v2/pokemon?limit=10000'),
+    ...ALL_TYPES.map(t => fetch(`https://pokeapi.co/api/v2/type/${t}`))
+  ]);
+  const [listData, ...typeDatas] = await Promise.all(responses.map(r => r.json()));
+
+  const typeMap = {};
+  typeDatas.forEach((typeData, i) => {
+    if (!typeData.pokemon) return;
+    typeData.pokemon.forEach(entry => {
+      const name = entry.pokemon.name;
+      if (!typeMap[name]) typeMap[name] = [];
+      typeMap[name].push(ALL_TYPES[i]);
+    });
+  });
+
+  typeMap['terapagos'] = ['stellar'];
+
+  dexCache = listData.results
     .map(p => {
       const id = parseInt(p.url.match(/\/(\d+)\/$/)[1]);
-      return { name: p.name, id };
+      return { name: p.name, id, types: typeMap[p.name] || [] };
     })
     .filter(p => p.id >= 1 && p.id <= 1025);
   return dexCache;
@@ -39,5 +62,7 @@ router.get('/', async (req, res) => {
     res.render('pokedex/index', { pokemon: [], genNum: 1, gens: GENS });
   }
 });
+
+getFullDex().catch(() => {});
 
 module.exports = router;

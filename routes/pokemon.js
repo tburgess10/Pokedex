@@ -122,6 +122,22 @@ router.get('/:id', async (req, res) => {
                                 const formRes  = await fetch(v.pokemon.url);
                                 const formData = await formRes.json();
                                 const fTypes = formData.types.map(t => t.type.name);
+                                const abilityDetails = await Promise.all(
+                                    formData.abilities.map(async (a) => {
+                                        try {
+                                            const ar   = await fetch(`https://pokeapi.co/api/v2/ability/${a.ability.name}`);
+                                            const data = await ar.json();
+                                            const entry = data.effect_entries.find(e => e.language.name === 'en');
+                                            return {
+                                                name:        a.ability.name,
+                                                isHidden:    a.is_hidden,
+                                                shortEffect: entry ? entry.short_effect : '',
+                                            };
+                                        } catch (_) {
+                                            return { name: a.ability.name, isHidden: a.is_hidden, shortEffect: '' };
+                                        }
+                                    })
+                                );
                                 return {
                                     name:             v.pokemon.name,
                                     artwork:          formData.sprites.other?.['official-artwork']?.front_default
@@ -135,6 +151,7 @@ router.get('/:id', async (req, res) => {
                                     height:           formData.height,
                                     weight:           formData.weight,
                                     baseExperience:   formData.base_experience,
+                                    abilityDetails,
                                 };
                             } catch (err) {
                                 return null;

@@ -163,7 +163,7 @@
 
         <div class="entry-abilities">
           <h2 class="entry-section-title">Abilities</h2>
-          <div class="ability-cards">
+          <div class="ability-cards" id="ability-cards">
             <% pokemon.abilityDetails.forEach(a => { %>
               <div class="ability-card <%= a.isHidden ? 'ability-card--hidden' : '' %>">
                 <div class="ability-card__header">
@@ -220,6 +220,7 @@
              data-types="<%= pokemon.types.map(t => t.type.name).join(',') %>"
              data-effectiveness='<%= JSON.stringify(pokemon.typeEffectiveness) %>'
              data-stats='<%= JSON.stringify(pokemon.stats) %>'
+             data-abilities='<%= JSON.stringify(pokemon.abilityDetails) %>'
              data-height="<%= pokemon.height %>"
              data-weight="<%= pokemon.weight %>"
              data-base-exp="<%= pokemon.base_experience %>">
@@ -250,6 +251,7 @@
                data-types="<%= typeStr %>"
                data-effectiveness='<%= JSON.stringify(f.typeEffectiveness) %>'
                data-stats='<%= JSON.stringify(f.stats) %>'
+               data-abilities='<%= JSON.stringify(f.abilityDetails) %>'
                data-height="<%= f.height %>"
                data-weight="<%= f.weight %>"
                data-base-exp="<%= f.baseExperience %>">

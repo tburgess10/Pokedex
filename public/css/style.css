@@ -342,6 +342,26 @@ body.pokeball-home {
   transition: background-color 0.35s;
 }
 
+.pb-dex-link {
+  position: relative;
+  z-index: 2;
+  display: inline-block;
+  padding: 0.45rem 1.25rem;
+  background: var(--accent);
+  color: var(--accent-fg);
+  border-radius: 20px;
+  font-size: 1rem;
+  font-weight: 700;
+  text-decoration: none;
+  letter-spacing: 0.05em;
+  transition: filter .18s, transform .15s;
+}
+
+.pb-dex-link:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
 .pb-nav {
   position: relative;
   z-index: 2;
@@ -981,6 +1001,7 @@ body.entry-page .pb-suggestion.is-active {
 .type-dark     { background: #624D4E; }
 .type-steel    { background: #60A1B8; }
 .type-fairy    { background: #EF70EF; }
+.type-stellar  { background: linear-gradient(135deg, #d4a435 0%, #7c3aed 100%); }
 
 /* Physical info boxes */
 .entry-physical {
@@ -1329,10 +1350,39 @@ body.entry-page .pb-suggestion.is-active {
   }
 
   .entry-artwork-box { width: 200px; height: 200px; }
-  .entry-name    { font-size: 1.8rem; }
-  .forms-grid    { gap: .75rem; }
-  .form-card     { width: 120px; }
-  .form-artwork  { width: 80px; height: 80px; }
+  .entry-name        { font-size: 1.8rem; }
+  .forms-grid        { gap: .75rem; }
+  .form-card         { width: 120px; }
+  .form-artwork      { width: 80px; height: 80px; }
+
+  /* Stack type chart below name/types instead of beside them */
+  .entry-info-top  { flex-direction: column; }
+  .type-chart      { width: 100%; }
+
+  /* Tighten outer margins */
+  .entry-main        { padding: 0 1rem 2rem; margin: 1rem auto; }
+  .entry-forms,
+  .entry-evolutions  { padding: 0; }
+}
+
+@media (max-width: 600px) {
+  /* Nav: two rows — [links | search] on top, [pagination] centered below */
+  .entry-nav {
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+    padding: 0.6rem 1rem;
+    gap: 0.4rem 0.5rem;
+  }
+  .entry-nav__links      { grid-column: 1; grid-row: 1; gap: 1rem; }
+  .entry-nav__pagination { grid-column: 1 / -1; grid-row: 2; justify-content: center; }
+  .entry-nav__search     { grid-column: 2; grid-row: 1; }
+  .nav-search-input      { width: 110px; }
+  .nav-search-input:focus { width: 130px; }
+
+  /* Tighten home page bottom half */
+  .pb-nav        { flex-wrap: wrap; justify-content: center; }
+  .pb-nav__card  { min-width: 130px; padding: 0.9rem 1.2rem; }
+  .pb-bottom     { gap: 1rem; padding: 1rem; }
 }
 
 /* ===================== Pokédex browser ===================== */
@@ -1442,6 +1492,19 @@ body.entry-page .pb-suggestion.is-active {
   font-weight: 700;
   color: #333;
   text-align: center;
+}
+
+.dex-types {
+  display: flex;
+  gap: 0.25rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 0.15rem;
+}
+
+.type-badge--sm {
+  padding: 0.1rem 0.4rem;
+  font-size: 0.6rem;
 }
 
 .dex-empty {

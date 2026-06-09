@@ -58,10 +58,14 @@
             class="dex-sprite"
             src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/<%= p.id %>.png"
             alt="<%= p.name %>"
-            loading="lazy"
           />
           <span class="dex-number">#<%= String(p.id).padStart(4, '0') %></span>
           <span class="dex-name"><%= p.name.charAt(0).toUpperCase() + p.name.slice(1) %></span>
+          <div class="dex-types">
+            <% p.types.forEach(function(t) { %>
+              <span class="type-badge type-badge--sm type-<%= t %>"><%= t %></span>
+            <% }); %>
+          </div>
         </a>
       <% }); %>
     </div>
