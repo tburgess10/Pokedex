@@ -38,7 +38,7 @@
         <h1 class="move-display-name"><%= move.displayName %></h1>
         <div class="move-hero-badges">
           <% if (move.type) { %>
-            <span class="type-badge type-<%= move.type %>"><%= move.type %></span>
+            <a class="type-badge type-<%= move.type %>" href="/types/<%= move.type %>"><%= move.type %></a>
           <% } %>
           <% if (move.damageClass) { %>
             <span class="move-cat move-cat--<%= move.damageClass %> move-cat--lg">

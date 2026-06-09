@@ -7,6 +7,7 @@ const pokemonRouter  = require('./routes/pokemon');
 const pokedexRouter  = require('./routes/pokedex');
 const abilitiesRouter = require('./routes/abilities');
 const movesRouter     = require('./routes/moves');
+const typesRouter     = require('./routes/types');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -46,6 +47,7 @@ app.use('/pokemon', pokemonRouter);
 app.use('/pokedex', pokedexRouter);
 app.use('/abilities', abilitiesRouter);
 app.use('/moves',     movesRouter);
+app.use('/types',     typesRouter);
 
 // Export for Vercel (serverless). Only bind a port when run directly locally.
 module.exports = app;

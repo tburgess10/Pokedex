@@ -144,7 +144,7 @@
       .filter(function (r) { return groups[r.mult] && groups[r.mult].length > 0; })
       .map(function (r) {
         const badges = groups[r.mult]
-          .map(function (t) { return '<span class="type-badge type-' + t + '">' + t + '</span>'; })
+          .map(function (t) { return '<a class="type-badge type-' + t + '" href="/types/' + t + '">' + t + '</a>'; })
           .join('');
         return '<div class="tc-row"><span class="tc-mult ' + r.cls + '">' + r.label + '</span><div class="tc-badges">' + badges + '</div></div>';
       })
@@ -216,7 +216,7 @@
       if (typesEl) {
         const types = card.dataset.types.split(',').filter(Boolean);
         typesEl.innerHTML = types
-          .map(function (t) { return '<span class="type-badge type-' + t + '">' + t + '</span>'; })
+          .map(function (t) { return '<a class="type-badge type-' + t + '" href="/types/' + t + '">' + t + '</a>'; })
           .join('');
       }
 
@@ -277,7 +277,7 @@
       var hasLv = method === 'level-up';
       var rows  = (table[method] || []).map(function (m) {
         var lvCell  = hasLv ? '<td class="moves-td moves-td--lv">' + (m.level || '—') + '</td>' : '';
-        var typeBadge = m.type ? '<span class="type-badge type-' + m.type + '">' + m.type + '</span>' : '—';
+        var typeBadge = m.type ? '<a class="type-badge type-' + m.type + '" href="/types/' + m.type + '">' + m.type + '</a>' : '—';
         var catLabel  = m.damageClass === 'physical' ? 'Phys' : m.damageClass === 'special' ? 'Spec' : m.damageClass === 'status' ? 'Stat' : null;
         var catBadge  = catLabel ? '<span class="move-cat move-cat--' + m.damageClass + '">' + catLabel + '</span>' : '—';
         var pwr = (m.power    !== null && m.power    !== undefined) ? m.power    : '—';
