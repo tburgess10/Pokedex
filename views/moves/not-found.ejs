@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Move Not Found — Burgédex</title>
+  <script>try{var t=localStorage.getItem('burgedex-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body class="move-page">
+  <nav class="entry-nav">
+    <div class="entry-nav__links">
+      <a href="/">← Home</a>
+      <a href="/pokedex">Pokédex</a>
+      <a href="/about">About</a>
+    </div>
+    <span class="entry-nav__brand">Burgédex</span>
+    <div class="entry-nav__search">
+      <form action="/pokemon" method="GET">
+        <input
+          id="pb-search-input"
+          class="nav-search-input"
+          type="text"
+          name="q"
+          placeholder="Search Pokémon..."
+          autocomplete="off"
+        />
+      </form>
+      <ul class="pb-suggestions" id="pb-suggestions" hidden></ul>
+    </div>
+  </nav>
+  <main>
+    <h1>Move not found</h1>
+    <p>No move named "<%= query %>" exists.</p>
+    <p><a href="/">← Back to home</a></p>
+  </main>
+  <script src="/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= move.displayName %> — Burgédex</title>
+  <script>try{var t=localStorage.getItem('burgedex-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body class="move-page">
+  <nav class="entry-nav">
+    <div class="entry-nav__links">
+      <a href="/">← Home</a>
+      <a href="/pokedex">Pokédex</a>
+      <a href="/about">About</a>
+    </div>
+    <span class="entry-nav__brand">Burgédex</span>
+    <div class="entry-nav__search">
+      <form action="/pokemon" method="GET">
+        <input
+          id="pb-search-input"
+          class="nav-search-input"
+          type="text"
+          name="q"
+          placeholder="Search Pokémon..."
+          autocomplete="off"
+        />
+      </form>
+      <ul class="pb-suggestions" id="pb-suggestions" hidden></ul>
+    </div>
+  </nav>
+
+  <main class="move-main">
+
+    <div class="move-hero-card">
+      <div class="move-hero-header">
+        <span class="ability-gen-badge"><%= move.generation %></span>
+        <h1 class="move-display-name"><%= move.displayName %></h1>
+        <div class="move-hero-badges">
+          <% if (move.type) { %>
+            <span class="type-badge type-<%= move.type %>"><%= move.type %></span>
+          <% } %>
+          <% if (move.damageClass) { %>
+            <span class="move-cat move-cat--<%= move.damageClass %> move-cat--lg">
+              <%= move.damageClass === 'physical' ? 'Physical' : move.damageClass === 'special' ? 'Special' : 'Status' %>
+            </span>
+          <% } %>
+        </div>
+      </div>
+
+      <div class="move-stats-row">
+        <div class="move-stat-box">
+          <span class="move-stat-label">Power</span>
+          <span class="move-stat-value"><%= move.power !== null && move.power !== undefined ? move.power : '—' %></span>
+        </div>
+        <div class="move-stat-box">
+          <span class="move-stat-label">Accuracy</span>
+          <span class="move-stat-value"><%= move.accuracy !== null && move.accuracy !== undefined ? move.accuracy : '—' %></span>
+        </div>
+        <div class="move-stat-box">
+          <span class="move-stat-label">PP</span>
+          <span class="move-stat-value"><%= move.pp !== null && move.pp !== undefined ? move.pp : '—' %></span>
+        </div>
+      </div>
+
+      <% if (move.shortEffect) { %>
+        <p class="ability-short-effect"><%= move.shortEffect %></p>
+      <% } %>
+
+      <% if (move.effect) { %>
+      <div class="ability-effect-body">
+        <h2 class="ability-effect-title">Effect</h2>
+        <p class="ability-effect-text"><%= move.effect %></p>
+      </div>
+      <% } %>
+    </div>
+
+    <% if (move.pokemon.length > 0) { %>
+    <section class="ability-pokemon-section">
+      <h2 class="ability-section-heading">
+        Learned by
+        <span class="ability-pokemon-count"><%= move.pokemon.length %></span>
+        Pokémon
+      </h2>
+      <div class="dex-grid">
+        <% move.pokemon.forEach(p => { %>
+          <a class="dex-card" href="/pokemon/<%= p.name %>">
+            <img class="dex-sprite" src="<%= p.sprite %>" alt="<%= p.displayName %>" loading="lazy" />
+            <span class="dex-number">#<%= String(p.id).padStart(4, '0') %></span>
+            <span class="dex-name"><%= p.displayName %></span>
+          </a>
+        <% }); %>
+      </div>
+    </section>
+    <% } %>
+
+  </main>
+
+  <footer>
+    <p>&copy; <%= new Date().getFullYear() %> Burgédex</p>
+  </footer>
+  <script src="/js/main.js"></script>
+</body>
+</html>

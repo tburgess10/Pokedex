@@ -285,7 +285,7 @@
         var pp  = (m.pp       !== null && m.pp       !== undefined) ? m.pp       : '—';
         return '<tr class="moves-row">' +
           lvCell +
-          '<td class="moves-td moves-td--name">' + m.displayName + '</td>' +
+          '<td class="moves-td moves-td--name"><a href="/moves/' + m.name + '" class="move-link">' + m.displayName + '</a></td>' +
           '<td class="moves-td">' + typeBadge + '</td>' +
           '<td class="moves-td">' + catBadge + '</td>' +
           '<td class="moves-td moves-td--num">' + pwr + '</td>' +

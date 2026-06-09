@@ -1558,6 +1558,98 @@ body.ability-page nav a {
   .ability-display-name { font-size: 1.8rem; }
 }
 
+/* ===================== Move page ===================== */
+
+body.move-page {
+  background: #f0f0f0;
+  min-height: 100vh;
+}
+
+body.move-page nav {
+  background: var(--accent);
+}
+
+body.move-page nav a {
+  color: var(--accent-fg);
+}
+
+.move-main {
+  max-width: 1060px;
+  margin: 2rem auto;
+  padding: 0 2rem 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.move-hero-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 2rem 2.5rem;
+}
+
+.move-hero-header {
+  margin-bottom: 1.25rem;
+}
+
+.move-display-name {
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin: 0.35rem 0 0.5rem;
+  color: #1a1a1a;
+}
+
+.move-hero-badges {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.move-cat--lg {
+  font-size: 0.82rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+}
+
+.move-stats-row {
+  display: flex;
+  gap: 1rem;
+  margin: 1.25rem 0 1rem;
+  flex-wrap: wrap;
+}
+
+.move-stat-box {
+  background: #f7f7f7;
+  border-radius: 12px;
+  padding: 0.6rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 70px;
+}
+
+.move-stat-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #999;
+  margin-bottom: 0.2rem;
+}
+
+.move-stat-value {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #1a1a1a;
+}
+
+@media (max-width: 720px) {
+  .move-main      { padding: 0 1rem 2rem; margin: 1rem auto; }
+  .move-hero-card { padding: 1.5rem; }
+  .move-display-name { font-size: 1.8rem; }
+}
+
 /* ===================== Moves table ===================== */
 
 .entry-moves {
@@ -1712,6 +1804,8 @@ body.ability-page nav a {
 .moves-td--num  { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; color: #555; }
 .moves-td--lv   { text-align: center; font-weight: 700; color: #aaa; font-size: 0.8rem; }
 .moves-td--name { font-weight: 600; white-space: nowrap; }
+.move-link { color: inherit; text-decoration: none; }
+.move-link:hover { color: var(--accent); text-decoration: underline; }
 
 .move-cat {
   display: inline-block;
