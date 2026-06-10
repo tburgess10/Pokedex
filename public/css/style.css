@@ -772,7 +772,9 @@ body.entry-page nav a {
 
 .entry-nav__links {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.25rem;
+  min-width: 0;
 }
 
 .entry-nav__links a {
@@ -812,6 +814,7 @@ body.entry-page nav a {
 .entry-nav__search {
   position: relative;
   justify-self: end;
+  min-width: 0;
 }
 
 .entry-nav__brand {
@@ -830,7 +833,7 @@ body.entry-page nav a {
   background: rgba(255,255,255,0.2);
   color: var(--accent-fg);
   font-size: 0.9rem;
-  width: 210px;
+  width: min(210px, 100%);
   outline: none;
   transition: background 0.2s, width 0.25s;
 }
@@ -841,7 +844,7 @@ body.entry-page nav a {
 
 .nav-search-input:focus {
   background: rgba(255,255,255,0.3);
-  width: 260px;
+  width: min(260px, 100%);
 }
 
 /* Suggestions on the entry page — compact dropdown, not the thick-bordered stripe style */
@@ -1468,7 +1471,7 @@ a.type-badge:hover { filter: brightness(1.15); }
   .entry-evolutions  { padding: 0; }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   /* Nav: links full-width row 1, search full-width row 2, pagination row 3 */
   .entry-nav {
     grid-template-columns: 1fr;
