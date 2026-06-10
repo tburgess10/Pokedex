@@ -1469,18 +1469,36 @@ a.type-badge:hover { filter: brightness(1.15); }
 }
 
 @media (max-width: 600px) {
-  /* Nav: two rows — [links | search] on top, [pagination] centered below */
+  /* Nav: links full-width row 1, search full-width row 2, pagination row 3 */
   .entry-nav {
-    grid-template-columns: 1fr auto;
-    grid-template-rows: auto auto;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
     padding: 0.6rem 1rem;
-    gap: 0.4rem 0.5rem;
+    gap: 0.4rem;
   }
-  .entry-nav__links      { grid-column: 1; grid-row: 1; gap: 1rem; }
-  .entry-nav__pagination { grid-column: 1 / -1; grid-row: 2; justify-content: center; }
-  .entry-nav__search     { grid-column: 2; grid-row: 1; }
-  .nav-search-input      { width: 110px; }
-  .nav-search-input:focus { width: 130px; }
+  .entry-nav__links {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    flex-wrap: wrap;
+    gap: 0.15rem 0.4rem;
+  }
+  .entry-nav__brand      { display: none; }
+  .entry-nav__search {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    justify-self: stretch;
+  }
+  .nav-search-input       { width: 100%; }
+  .nav-search-input:focus { width: 100%; }
+  .entry-nav__pagination  { grid-column: 1 / -1; grid-row: 3; justify-content: center; }
+
+  /* Suggestions span full search width on mobile */
+  body.entry-page .pb-suggestions {
+    left: 0;
+    right: 0;
+    width: auto;
+    max-width: none;
+  }
 
   /* Tighten home page bottom half */
   .pb-nav        { flex-wrap: wrap; justify-content: center; }
