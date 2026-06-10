@@ -3,6 +3,7 @@ const path = require('path');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const indexRouter    = require('./routes/index');
+const gachaRouter    = require('./routes/gacha');
 const pokemonRouter  = require('./routes/pokemon');
 const pokedexRouter  = require('./routes/pokedex');
 const abilitiesRouter = require('./routes/abilities');
@@ -47,12 +48,13 @@ app.use((req, res, next) => {
   if      (req.path.startsWith('/pokedex'))  res.locals.currentSection = 'pokedex';
   else if (req.path.startsWith('/types'))    res.locals.currentSection = 'types';
   else if (req.path.startsWith('/moves'))    res.locals.currentSection = 'moves';
-  else if (req.path.startsWith('/about'))    res.locals.currentSection = 'about';
+  else if (req.path.startsWith('/roll'))     res.locals.currentSection = 'roll';
   else                                       res.locals.currentSection = '';
   next();
 });
 
 app.use('/', indexRouter);
+app.use('/', gachaRouter);
 app.use('/pokemon', pokemonRouter);
 app.use('/pokedex', pokedexRouter);
 app.use('/abilities', abilitiesRouter);
